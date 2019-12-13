@@ -1,9 +1,10 @@
-package com.example.navi_gator;
+package com.example.navi_gator.Activity;
 
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
 
+import com.example.navi_gator.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -12,6 +13,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    /**
+     * De map activity is waar de gebruiker de meeste tijd zal besteden.
+     * Hier is een kaart te zien met de route die is ingeladen.
+     * Op de activity staat de navigationFragment en routeController.
+     */
 
     private GoogleMap mMap;
 
