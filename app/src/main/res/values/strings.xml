@@ -1,7 +1,5 @@
 <resources>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-AIzaSyCZe5sF3fvqAa1Vphs6yP-WZJ2sQ-iTMhs
-</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCZe5sF3fvqAa1Vphs6yP-WZJ2sQ-iTMhs</string>
     <string name="app_name">Navi-gator</string>
     <string name="title_activity_maps">Map</string>
 </resources>
