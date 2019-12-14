@@ -71,7 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_left,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_left);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.help_fragment_container,fragment,"help_fragment").commit();
+        transaction.replace(R.id.map_container,fragment,"help_fragment").commit();
     }
 
     public void openBurgerFragment(){
