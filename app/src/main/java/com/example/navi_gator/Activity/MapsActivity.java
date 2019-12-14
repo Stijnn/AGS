@@ -1,5 +1,6 @@
 package com.example.navi_gator.Activity;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -33,6 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button burger_btn;
     private FrameLayout helpLayout;
     private FrameLayout burgerLayout;
+    private ConstraintLayout dummyLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         burger_btn = findViewById(R.id.burgermenu_btn);
         helpLayout = findViewById(R.id.help_fragment_container);
         burgerLayout = findViewById(R.id.burger_fragment_container);
+        dummyLayout = findViewById(R.id.dummy_container);
 
         help_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,9 +78,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Burger_fragment fragment = Burger_fragment.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+        transaction.setCustomAnimations(R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.burger_fragment_container,fragment,"burger_fragment").commit();
+        transaction.replace(R.id.dummy_container,fragment,"burger_fragment").commit();
     }
 
 
