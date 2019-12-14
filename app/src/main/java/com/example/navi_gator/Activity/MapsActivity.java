@@ -92,30 +92,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000,
-                0, locationListener);
-
-        // creates the userNavigator marker, to show the current position on the map.
-        Location startLoc = this.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (startLoc != null) {
-            MarkerOptions position = new MarkerOptions().position(new LatLng(startLoc.getLatitude(), startLoc.getLongitude()))
-                    .title("UserNavigator")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_navigator_marker));
-            this.userNavigator = this.mMap.addMarker(position);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(startLoc.getLatitude(), startLoc.getLongitude())));
-            mMap.setMinZoomPreference(10);
-        }
+                5000,
+                10, locationListener);
     }
 
     @Override
     public void updateUserNavigatorLocation(Location location) {
         try {
+
             this.userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
 
         } catch (NullPointerException ex) {
-            // this gets called after the user clicks the cancel button, to make sure the system doesn't crash
+            // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
             // this also makes sure to update the location if the GPS is disabled mid-way and re-enabled.
 
+            // creates the userNavigator marker, to show the current position on the map.
             MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))
                     .title("UserNavigator")
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_navigator_marker));
