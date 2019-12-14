@@ -1,6 +1,5 @@
 package com.example.navi_gator.Activity;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -34,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button burger_btn;
     private FrameLayout helpLayout;
     private FrameLayout burgerLayout;
-    private ConstraintLayout dummyLayout;
+    private FrameLayout dummyLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
