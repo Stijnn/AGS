@@ -1,4 +1,4 @@
-package com.example.navi_gator;
+package com.example.navi_gator.Models.GPS;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,9 +15,6 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-
-import com.example.navi_gator.Models.GPS.IUserNavigatorUpdater;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class GPSManager extends Service {
 
@@ -44,26 +41,34 @@ public class GPSManager extends Service {
         // check to see whether the user gave permission to use location services, if not prompts the user for permission
 
         if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            AlertDialog.Builder alertDialog=new AlertDialog.Builder(context);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
             alertDialog.setTitle("Enable Location");
-            alertDialog.setMessage("Your locations setting is not enabled. Please enabled it in settings menu.");
+            alertDialog.setMessage("Your locations settings are disabled. \nPlease enabled it in settings menu or from the top-down draggable shortcut window");
             alertDialog.setPositiveButton("Location Settings", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
-                    Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(intent);
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    try {
+
+                    context.startActivity(intent);
+
+                    } catch (NullPointerException ex) {
+                        //TODO make notification
+                    }
                 }
             });
-            alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     dialog.cancel();
+                    // TODO make notification
+
+                    // Placeholder
+                    Toast.makeText(context, "You can still continue using the map, \nwhile location is disabled.\nTo use location you can toggle it on from the settings menu", Toast.LENGTH_LONG).show();
                 }
             });
-            AlertDialog alert=alertDialog.create();
+            AlertDialog alert = alertDialog.create();
             alert.show();
         }
-        else{
-
-            // not necessary
+        // not necessary
 
 //            AlertDialog.Builder alertDialog=new AlertDialog.Builder(context);
 //            alertDialog.setTitle("Confirm Location");
@@ -75,7 +80,6 @@ public class GPSManager extends Service {
 //            });
 //            AlertDialog alert=alertDialog.create();
 //            alert.show();
-        }
     }
 
     public void setupLocationServices(LocationListener locationListener, LocationManager locationManager) {
@@ -85,22 +89,29 @@ public class GPSManager extends Service {
             public void onLocationChanged(Location location) {
                 if (location != null) {
                     listener.updateUserNavigatorLocation(location);
-                    Toast.makeText(context, "This works?\n" + "lat: " + location.getLatitude()+ "\nlong: "  + location.getLongitude(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "lat: " + location.getLatitude()+ "\nlong: "  + location.getLongitude(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
+                //TODO make notification
 
+                Toast.makeText(context, "Location Service altered", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onProviderEnabled(String provider) {
+                //TODO make notification
+
+                Toast.makeText(context, "Location Service enabled", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onProviderDisabled(String provider) {
+                //TODO make notification
 
+                Toast.makeText(context, "Location Service disabled", Toast.LENGTH_SHORT).show();
             }
         };
         this.locationManager = locationManager;

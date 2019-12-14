@@ -12,7 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import com.example.navi_gator.GPSManager;
+import com.example.navi_gator.Models.GPS.GPSManager;
 import com.example.navi_gator.Models.GPS.IUserNavigatorUpdater;
 import com.example.navi_gator.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,12 +20,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import static com.example.navi_gator.GPSManager.PERMISSION_STRING;
+import static com.example.navi_gator.Models.GPS.GPSManager.PERMISSION_STRING;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, IUserNavigatorUpdater {
 
@@ -60,6 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -80,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // initializes the location services and checks if permission is given.
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ContextCompat.checkSelfPermission(this, PERMISSION_STRING) != PackageManager.PERMISSION_GRANTED ) {
+        if (ContextCompat.checkSelfPermission(this, PERMISSION_STRING) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    Activity#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -88,12 +88,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for Activity#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 123);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                2000,
-                10, locationListener);
+                1000,
+                0, locationListener);
 
         // creates the userNavigator marker, to show the current position on the map.
         Location startLoc = this.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -102,12 +102,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .title("UserNavigator")
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_navigator_marker));
             this.userNavigator = this.mMap.addMarker(position);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(startLoc.getLatitude(), startLoc.getLongitude())));
+            mMap.setMinZoomPreference(10);
         }
     }
 
     @Override
     public void updateUserNavigatorLocation(Location location) {
-        this.userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(),location.getLongitude())));
+        try {
+            this.userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+
+        } catch (NullPointerException ex) {
+            // this gets called after the user clicks the cancel button, to make sure the system doesn't crash
+            // this also makes sure to update the location if the GPS is disabled mid-way and re-enabled.
+
+            MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .title("UserNavigator")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_navigator_marker));
+            this.userNavigator = this.mMap.addMarker(position);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            mMap.setMinZoomPreference(10);
+
+            //TODO make notification
+        }
     }
 }
