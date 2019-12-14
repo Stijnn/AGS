@@ -33,7 +33,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button burger_btn;
     private FrameLayout helpLayout;
     private FrameLayout burgerLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         burger_btn = findViewById(R.id.burgermenu_btn);
         helpLayout = findViewById(R.id.help_fragment_container);
         burgerLayout = findViewById(R.id.burger_fragment_container);
-
 
         help_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +61,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
 
     public void openHelpFragment(){
         Help_fragment fragment = Help_fragment.newInstance();

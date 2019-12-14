@@ -41,7 +41,6 @@ public class Burger_fragment extends Fragment {
         return view;
     }
 
-
     public void onButtonPressed() {
         if (mListener != null) {
             mListener.onFragmentInteraction();
