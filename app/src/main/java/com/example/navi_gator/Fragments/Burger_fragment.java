@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.navi_gator.Interface.OnFragmentInteractionListener;
 import com.example.navi_gator.R;
@@ -16,11 +17,12 @@ import com.example.navi_gator.R;
 public class Burger_fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button back_btn;
+    private Button setting_btn;
 
     public Burger_fragment() {
         // Required empty public constructor
     }
-
 
 
     public static Burger_fragment newInstance() {
@@ -37,11 +39,19 @@ public class Burger_fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.burger_fragment, container, false);
+        this.back_btn = view.findViewById(R.id.burger_back_btn);
+        this.setting_btn = view.findViewById(R.id.setting_btn);
 
+        this.back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendBack();
+            }
+        });
         return view;
     }
 
-    public void onButtonPressed() {
+    public void sendBack() {
         if (mListener != null) {
             mListener.onFragmentInteraction();
         }
@@ -63,15 +73,4 @@ public class Burger_fragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
 }
