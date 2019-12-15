@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import static com.example.navi_gator.Models.GPS.GPSManager.PERMISSION_STRING;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, IUserNavigatorUpdater {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     /**
      * De map activity is waar de gebruiker de meeste tijd zal besteden.
@@ -36,7 +36,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
 
     private GoogleMap mMap;
-    private Marker userNavigator;
     private RouteController controller;
 
     @Override
@@ -64,17 +63,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        this.controller = new RouteController(this, this, this);
+        this.controller = new RouteController(this, this, mMap);
         controller.prepareLocationService();
         // Add a marker in Breda and move the camera
 
         LatLng breda = new LatLng(51.571915, 4.768323);
         mMap.addMarker(new MarkerOptions().position(breda).title("Marker in breda"));
-    }
-
-    @Override
-    public void updateUserNavigatorLocation(Location location) {
-        this.controller.prepareAndUpdateUserNavigatorPosition(this.userNavigator, this.mMap, location);
-          //TODO make notification
     }
 }

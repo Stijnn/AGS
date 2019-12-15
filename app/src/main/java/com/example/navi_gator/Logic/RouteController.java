@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import static com.example.navi_gator.Models.GPS.GPSManager.PERMISSION_STRING;
 
-public class RouteController {
+public class RouteController implements IUserNavigatorUpdater {
 
     /**
      * De route controller laat de gebruiker de route een beetje besturen.
@@ -36,16 +36,21 @@ public class RouteController {
     private LocationManager locationManager;
     private LocationListener locationListener;
 
+    private Marker userNavigator;
+
     private Context context;
 
     private GPSManager gpsManager;
 
     private Activity mapActivity;
 
-    public RouteController (Context context, IUserNavigatorUpdater listener, Activity mapActivity) {
-        gpsManager = new GPSManager(context, listener);
+    private GoogleMap mMap;
+
+    public RouteController (Context context, Activity mapActivity, GoogleMap mMap) {
+        gpsManager = new GPSManager(context, this);
         this.context = context;
         this.mapActivity = mapActivity;
+        this.mMap = mMap;
     }
 
     public GPSManager getGpsManager() {
@@ -54,27 +59,6 @@ public class RouteController {
 
     public void setGpsManager(GPSManager gpsManager) {
         this.gpsManager = gpsManager;
-    }
-
-    public void prepareAndUpdateUserNavigatorPosition(Marker userNavigator, GoogleMap mMap, Location location) {
-        try {
-
-            userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
-
-        } catch (NullPointerException ex) {
-            // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
-            // this also makes sure to update the location if the GPS is disabled mid-way and re-enabled.
-
-            // creates the userNavigator marker, to show the current position on the map.
-            MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .title("UserNavigator")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_navigator_marker));
-            userNavigator = mMap.addMarker(position);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
-            mMap.setMinZoomPreference(10);
-
-            //TODO make notification
-        }
     }
 
     public void prepareLocationService() {
@@ -96,7 +80,29 @@ public class RouteController {
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                5000,
+                2000,
                 10, locationListener);
+    }
+
+    @Override
+    public void updateUserNavigatorLocation(Location location) {
+        try {
+
+            userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+
+        } catch (NullPointerException ex) {
+            // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
+            // this also makes sure to update the location if the GPS is disabled mid-way and re-enabled.
+
+            // creates the userNavigator marker, to show the current position on the map.
+            MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .title("UserNavigator")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_navigator_marker));
+            userNavigator = mMap.addMarker(position);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            mMap.setMinZoomPreference(10);
+
+            //TODO make notification
+        }
     }
 }
