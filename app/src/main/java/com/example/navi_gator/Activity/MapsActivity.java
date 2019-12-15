@@ -12,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import com.example.navi_gator.Logic.RouteController;
 import com.example.navi_gator.Models.GPS.GPSManager;
 import com.example.navi_gator.Models.GPS.IUserNavigatorUpdater;
 import com.example.navi_gator.R;
@@ -35,9 +36,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
 
     private GoogleMap mMap;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
     private Marker userNavigator;
+    private RouteController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,57 +64,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        prepareLocationService();
-
+        this.controller = new RouteController(this, this, this);
+        controller.prepareLocationService();
         // Add a marker in Breda and move the camera
 
         LatLng breda = new LatLng(51.571915, 4.768323);
         mMap.addMarker(new MarkerOptions().position(breda).title("Marker in breda"));
     }
 
-    public void prepareLocationService() {
-        GPSManager gpsManager = new GPSManager(this, this);
-        gpsManager.setupLocationServices(locationListener, locationManager);
-        gpsManager.isLocationEnabled();
-        locationListener = gpsManager.getLocationListener();
-
-        // initializes the location services and checks if permission is given.
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ContextCompat.checkSelfPermission(this, PERMISSION_STRING) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    Activity#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                5000,
-                10, locationListener);
-    }
-
     @Override
     public void updateUserNavigatorLocation(Location location) {
-        try {
-
-            this.userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
-
-        } catch (NullPointerException ex) {
-            // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
-            // this also makes sure to update the location if the GPS is disabled mid-way and re-enabled.
-
-            // creates the userNavigator marker, to show the current position on the map.
-            MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .title("UserNavigator")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_navigator_marker));
-            this.userNavigator = this.mMap.addMarker(position);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
-            mMap.setMinZoomPreference(10);
-
-            //TODO make notification
-        }
+        this.controller.prepareAndUpdateUserNavigatorPosition(this.userNavigator, this.mMap, location);
+          //TODO make notification
     }
 }
