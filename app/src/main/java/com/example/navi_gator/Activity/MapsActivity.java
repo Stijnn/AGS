@@ -32,8 +32,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
     }
 
     /**
@@ -57,4 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng breda = new LatLng(51.571915, 4.768323);
         mMap.addMarker(new MarkerOptions().position(breda).title("Marker in breda"));
     }
+
+
+
 }

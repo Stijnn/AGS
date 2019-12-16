@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -25,6 +24,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.navi_gator.Models.GPS.GPSManager.PERMISSION_STRING;
@@ -53,12 +53,17 @@ public class RouteManager implements IUserNavigatorUpdater {
     private RouteReader routeReader;
     private InputStream routeStream;
 
+    // DirectionsAPI
+    private List<List<Waypoint>> divideWaypoints;
+    private DirectionsAPI directionsAPI;
+
     public RouteManager(Context context, Activity mapActivity, GoogleMap mMap, InputStream route) {
         gpsManager = new GPSManager(context, this);
         this.context = context;
         this.mapActivity = mapActivity;
         this.mMap = mMap;
         this.routeStream = route;
+        this.directionsAPI = new DirectionsAPI(); // For now left empty
 
         try {
             routeReader = new RouteReader(this.routeStream);
@@ -68,6 +73,29 @@ public class RouteManager implements IUserNavigatorUpdater {
 
         this.route = routeReader.getRoute();
         createRouteWaypointOnMap();
+
+        this.divideWaypoints = divideWaypoints();
+
+        String valueTEST = this.directionsAPI.generateExtraWaypointsStringFromList(this.divideWaypoints.get(1));
+    }
+
+    private List<List<Waypoint>> divideWaypoints() {
+        List<List<Waypoint>> waypointListDivided = new ArrayList<>();
+
+        boolean newListRequired;
+        List<Waypoint> waypointsOfRoute = this.route.getRouteWaypoints();
+        List<Waypoint> dividedList = new ArrayList<>();
+
+        for (int i = 1; i <= this.route.getRouteWaypoints().size(); i++) {
+            newListRequired = i % 9 == 1 && i != 1;
+            if (newListRequired) {
+                waypointListDivided.add(dividedList);
+                dividedList = new ArrayList<>();
+            }
+            dividedList.add(waypointsOfRoute.get(i-1));
+        }
+        waypointListDivided.add(dividedList);
+        return waypointListDivided;
     }
 
     private void createRouteWaypointOnMap() {
