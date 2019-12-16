@@ -13,6 +13,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.example.navi_gator.Logic.RouteController;
+import com.example.navi_gator.Logic.RouteReader;
+import com.example.navi_gator.Models.API.Route;
 import com.example.navi_gator.Models.GPS.GPSManager;
 import com.example.navi_gator.Models.GPS.IUserNavigatorUpdater;
 import com.example.navi_gator.R;
@@ -24,6 +26,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.File;
+import java.io.IOException;
 
 import static com.example.navi_gator.Models.GPS.GPSManager.PERMISSION_STRING;
 
@@ -42,6 +47,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        try {
+            RouteReader routeReader = new RouteReader(getResources().openRawResource(R.raw.historischekm));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
