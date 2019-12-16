@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.navi_gator.Logic.DatabaseManager;
+import com.example.navi_gator.Models.API.Route;
 import com.example.navi_gator.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,10 +19,15 @@ public class MainActivity extends AppCompatActivity {
      * Dit wordt op het scherm weergegeven als de app nog iets aan het laden is.
      */
 
+    private DatabaseManager databaseManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        databaseManager = new DatabaseManager(this.getBaseContext());
 
         initButton();
         animateText();
@@ -54,43 +61,44 @@ public class MainActivity extends AppCompatActivity {
                     int time = 0;
                     while(timeIsTicking) {
                         sleep(100);
+                        String textFull = "Navi-gator";
+                        int rest = time % (textFull.length() * 100) + 100;
+                        setText(textFull.substring(0, rest != 0 ? (rest / 100) : 0));
 
-                        int rest = time % 1100;
-
-                        switch(rest) {
-                            case 0:
-                                setText("N");
-                                break;
-                            case 100:
-                                setText("Na");
-                                break;
-                            case 200:
-                                setText("Nav");
-                                break;
-                            case 300:
-                                setText("Navi");
-                                break;
-                            case 400:
-                                setText("Navi-");
-                                break;
-                            case 500:
-                                setText("Navi-g");
-                                break;
-                            case 600:
-                                setText("Navi-ga");
-                                break;
-                            case 700:
-                                setText("Navi-gat");
-                                break;
-                            case 800:
-                                setText("Navi-gato");
-                                break;
-                            case 900:
-                                setText("Navi-gator");
-                                break;
-                            default:
-                                break;
-                        }
+//                        switch(rest) {
+//                            case 0:
+//                                setText("N");
+//                                break;
+//                            case 100:
+//                                setText("Na");
+//                                break;
+//                            case 200:
+//                                setText("Nav");
+//                                break;
+//                            case 300:
+//                                setText("Navi");
+//                                break;
+//                            case 400:
+//                                setText("Navi-");
+//                                break;
+//                            case 500:
+//                                setText("Navi-g");
+//                                break;
+//                            case 600:
+//                                setText("Navi-ga");
+//                                break;
+//                            case 700:
+//                                setText("Navi-gat");
+//                                break;
+//                            case 800:
+//                                setText("Navi-gato");
+//                                break;
+//                            case 900:
+//                                setText("Navi-gator");
+//                                break;
+//                            default:
+//                                break;
+//                        }
 
                         time += 100;
                     }

@@ -25,6 +25,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
+    /**
+     * Creates the database and its required tables
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(String.format("CREATE TABLE %s (" +
@@ -51,22 +55,32 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Retrieve route from the database
+     * @param route_id The id for the route
+     * @return found route, in case not found returns null
+     */
     public Route getRoute(String route_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id == %s;", Route.TABLE_NAME, route_id), new String[]{});
+        Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id == '%s';", Route.TABLE_NAME, route_id), new String[]{});
         if (cursor.moveToFirst())
             return new Route(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3) > 0);
         else
             return null;
     }
 
+    /**
+     * Retrieve waypoints by route from the database
+     * @param route route for identification
+     * @return List of waypoints
+     */
     public ArrayList<Waypoint> getWaypoints(Route route) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE route_id == %s;", "tbl_RouteWaypoints", route.getId()), new String[]{});
+        Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE route_id == '%s';", "tbl_RouteWaypoints", route.getId()), new String[]{});
         ArrayList<Waypoint> waypoints = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                Cursor waypointCursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id == %s;", Waypoint.TABLE_NAME, cursor.getString(1)), new String[]{});
+                Cursor waypointCursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id == '%s';", Waypoint.TABLE_NAME, cursor.getString(1)), new String[]{});
 
                 if (waypointCursor.moveToFirst()) {
                     waypoints.add(new Waypoint(
@@ -84,20 +98,33 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return waypoints;
     }
 
+    /**
+     * Updates route
+     * @param route object to update
+     */
     public void updateRoute(Route route) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(String.format("UPDATE %s" +
                 "SET finished = %d" +
-                "WHERE id == %s;", Route.TABLE_NAME, route.isFinished() ? 1 : 0, route.getId()));
+                "WHERE id == '%s';", Route.TABLE_NAME, route.isFinished() ? 1 : 0, route.getId()));
     }
 
+    /**
+     * Updates waypoint
+     * @param route identifier
+     * @param waypoint waypoint to update in linked table
+     */
     public void updateRouteWaypoint(Route route, Waypoint waypoint) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(String.format("UPDATE %s" +
                 "SET visited = %d" +
-                "WHERE route_id == %s AND waypoint_id == %s;", "tbl_RouteWaypoints", waypoint.isVisited() ? 1 : 0, route.getId(), waypoint.getId()));
+                "WHERE route_id == '%s' AND waypoint_id == '%s';", "tbl_RouteWaypoints", waypoint.isVisited() ? 1 : 0, route.getId(), waypoint.getId()));
     }
 
+    /**
+     * Add route to the database
+     * @param route route to add
+     */
     public void addRoute(Route route) {
         ContentValues cv = new ContentValues();
         cv.put("id", route.getId());
@@ -108,6 +135,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.insert(Route.TABLE_NAME, null, cv);
     }
 
+    /**
+     * Add waypoint to the database
+     * @param waypoint waypoint to add
+     */
     public void addWaypoint(Waypoint waypoint) {
         ContentValues cv = new ContentValues();
         cv.put("id", waypoint.getId());
@@ -119,6 +150,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.insert(Waypoint.TABLE_NAME, null, cv);
     }
 
+    /**
+     * Add link between route and waypoint
+     * @param route route id
+     * @param waypoint waypoint id
+     * @param visited is the waypoint visited?
+     */
     public void addRouteWaypoint(Route route, Waypoint waypoint, boolean visited) {
         ContentValues cv = new ContentValues();
         cv.put("route_id", route.getId());
