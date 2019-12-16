@@ -67,8 +67,5 @@
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline1" /><![CDATA[
-
-    />
-]]>
+        app:layout_constraintStart_toStartOf="@+id/guideline1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

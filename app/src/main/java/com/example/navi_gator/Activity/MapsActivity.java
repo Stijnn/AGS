@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import com.example.navi_gator.Fragments.Burger_fragment;
 import com.example.navi_gator.Fragments.Help_fragment;
+import com.example.navi_gator.Fragments.Loading_fragment;
 import com.example.navi_gator.Interface.OnFragmentInteractionListener;
 import com.example.navi_gator.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -80,6 +81,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         transaction.setCustomAnimations(R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right);
         transaction.addToBackStack(null);
         transaction.replace(R.id.dummy_container,fragment,"burger_fragment").commit();
+    }
+
+    public void openLoadingFragment(){
+        Loading_fragment fragment = Loading_fragment.newInstance();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.exit_to_bottom,R.anim.enter_from_bottom,R.anim.exit_to_bottom);
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.map_container,fragment,"loading_fragment").commit();
     }
 
 

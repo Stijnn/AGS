@@ -64,42 +64,6 @@ public class MainActivity extends AppCompatActivity {
                         String textFull = "Navi-gator";
                         int rest = time % (textFull.length() * 100) + 100;
                         setText(textFull.substring(0, rest != 0 ? (rest / 100) : 0));
-
-//                        switch(rest) {
-//                            case 0:
-//                                setText("N");
-//                                break;
-//                            case 100:
-//                                setText("Na");
-//                                break;
-//                            case 200:
-//                                setText("Nav");
-//                                break;
-//                            case 300:
-//                                setText("Navi");
-//                                break;
-//                            case 400:
-//                                setText("Navi-");
-//                                break;
-//                            case 500:
-//                                setText("Navi-g");
-//                                break;
-//                            case 600:
-//                                setText("Navi-ga");
-//                                break;
-//                            case 700:
-//                                setText("Navi-gat");
-//                                break;
-//                            case 800:
-//                                setText("Navi-gato");
-//                                break;
-//                            case 900:
-//                                setText("Navi-gator");
-//                                break;
-//                            default:
-//                                break;
-//                        }
-
                         time += 100;
                     }
                 } catch (InterruptedException e) {
