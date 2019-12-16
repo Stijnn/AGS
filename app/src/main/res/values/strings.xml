@@ -9,4 +9,7 @@
     <string name="waypoints_btn">Waypoints</string>
     <string name="route_btn">Route</string>
     <string name="animiated_text">Navi-Gator</string>
+    <string name="waypoint_title">Title</string>
+    <string name="waypoint_details">Details</string>
+    <string name="waypoint_image">Image</string>
 </resources>

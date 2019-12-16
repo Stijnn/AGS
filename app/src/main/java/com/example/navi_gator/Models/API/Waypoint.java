@@ -1,8 +1,13 @@
 package com.example.navi_gator.Models.API;
 
+import android.icu.text.Transliterator;
 import android.location.Location;
 
-public class Waypoint {
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.Serializable;
+
+public class Waypoint implements Serializable {
     public static final String TABLE_NAME = "tbl_Waypoints";
 
     private boolean visited;
@@ -54,15 +59,11 @@ public class Waypoint {
         return lon;
     }
 
-    public void setLon(double lon) {
-        this.lon = lon;
-    }
-
     public double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    public LatLng getPosition(){
+        return new LatLng(this.lat,this.lon);
     }
 }
