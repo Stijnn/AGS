@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,6 +12,8 @@ import android.location.LocationManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.navi_gator.Models.API.Route;
+import com.example.navi_gator.Models.API.Waypoint;
 import com.example.navi_gator.Models.GPS.GPSManager;
 import com.example.navi_gator.Models.GPS.IUserNavigatorUpdater;
 import com.example.navi_gator.R;
@@ -21,9 +24,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.InputStream;
+import java.util.List;
+
 import static com.example.navi_gator.Models.GPS.GPSManager.PERMISSION_STRING;
 
-public class RouteController implements IUserNavigatorUpdater {
+public class RouteManager implements IUserNavigatorUpdater {
 
     /**
      * De route controller laat de gebruiker de route een beetje besturen.
@@ -33,24 +39,44 @@ public class RouteController implements IUserNavigatorUpdater {
      * Dit zal weergegeven worden op de mapactivity.
      */
 
+    // GPS attributes
     private LocationManager locationManager;
     private LocationListener locationListener;
-
     private Marker userNavigator;
-
     private Context context;
-
     private GPSManager gpsManager;
-
     private Activity mapActivity;
-
     private GoogleMap mMap;
 
-    public RouteController (Context context, Activity mapActivity, GoogleMap mMap) {
+    // RouteManager attributes
+    private Route route;
+    private RouteReader routeReader;
+    private InputStream routeStream;
+
+    public RouteManager(Context context, Activity mapActivity, GoogleMap mMap, InputStream route) {
         gpsManager = new GPSManager(context, this);
         this.context = context;
         this.mapActivity = mapActivity;
         this.mMap = mMap;
+        this.routeStream = route;
+
+        try {
+            routeReader = new RouteReader(this.routeStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.route = routeReader.getRoute();
+        createRouteWaypointOnMap();
+    }
+
+    private void createRouteWaypointOnMap() {
+        for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
+            MarkerOptions routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
+                    .title(routeWaypoint.getName())
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker));
+            mMap.addMarker(routeWaypointMarker);
+        }
     }
 
     public GPSManager getGpsManager() {
@@ -104,5 +130,9 @@ public class RouteController implements IUserNavigatorUpdater {
 
             //TODO make notification
         }
+    }
+
+    public void checkWaypoint() {
+        // Interface?
     }
 }
