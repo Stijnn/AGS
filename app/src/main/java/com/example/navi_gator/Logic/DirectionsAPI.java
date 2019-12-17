@@ -1,5 +1,6 @@
 package com.example.navi_gator.Logic;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 import androidx.annotation.Nullable;
@@ -22,17 +23,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class DirectionsAPI {
+public class DirectionsAPI implements IDirectionsAPIHelper {
 
     // The Google Maps Directions API will only work with a Server key.
-    private static final String MY_API_KEY = "97cb2f24-ffa2-412b-ac7e-deb64176af35\n";
+    private String MY_API_KEY = "97cb2f24-ffa2-412b-ac7e-deb64176af35\n";
 
     private GoogleMap mMap;
-    private LatLng mOrigin;
-    private LatLng mDestination;
-    private Polyline mPolyline;
+    private List<PolylineOptions> mPolylines;
     private List<LatLng> mMarkerPoints;
 
     // Special prefixes used in the directions url formatting
@@ -42,17 +42,32 @@ public class DirectionsAPI {
 
     private List<List<Waypoint>> divideWaypoints;
 
+    private final boolean backUpKeyRequired = true;
+
+    private LatLng northEast;
+    private LatLng southWest;
+
     private Route route;
 
     private int index;
 
+    private int requestCount;
+
     public DirectionsAPI(Route route, GoogleMap map) {
+
+        if (backUpKeyRequired) {
+            this.MY_API_KEY = "b9b76fa5-992f-4271-bdb3-3a5e2ebc0bf3";
+        }
+
         this.route = route;
         this.divideWaypoints = divideWaypoints();
         this.mMap = map;
+        this.mPolylines = new ArrayList<>();
+        this.requestCount = this.divideWaypoints.size();
 
-        createRoutePolyLinesOnMap();
-        mMap.setMaxZoomPreference(17);
+        createRoutePolyLinesOnMap(this);
+
+        mMap.setMaxZoomPreference(20);
         mMap.setMinZoomPreference(15);
     }
 
@@ -85,7 +100,15 @@ public class DirectionsAPI {
         return waypointListDivided;
     }
 
-    public void createRoutePolyLinesOnMap() {
+    public void drawPolyLinesOnMap() {
+        if (mPolylines != null && this.requestCount == 0) {
+            for (PolylineOptions mPolyline : mPolylines) {
+                mMap.addPolyline(mPolyline);
+            }
+        }
+    }
+
+    public void createRoutePolyLinesOnMap(final IDirectionsAPIHelper helper) {
         this.index = 0;
 
         for (int i = 0; i < this.divideWaypoints.size(); i++) {
@@ -94,7 +117,7 @@ public class DirectionsAPI {
                     @Override
                     public void run() {
                         String routeStartURL = generateRouteStartURL();
-                        FetchUrl FetchUrl = new FetchUrl();
+                        FetchUrl FetchUrl = new FetchUrl(helper);
                         FetchUrl.execute(routeStartURL);
                         index++;
                     }
@@ -106,7 +129,7 @@ public class DirectionsAPI {
                     @Override
                     public void run() {
                         String routeRestURL = generateRouteRestURL(index);
-                        FetchUrl FetchUrl = new FetchUrl();
+                        FetchUrl FetchUrl = new FetchUrl(helper);
                         FetchUrl.execute(routeRestURL);
                         index++;
                     }
@@ -226,8 +249,73 @@ public class DirectionsAPI {
         return data;
     }
 
+    public void checkPolyLineLocation(Location location) {
+        float[] results = new float[1];
+
+        for(Iterator<PolylineOptions> pl = this.mPolylines.iterator(); pl.hasNext();) {
+            PolylineOptions mPolyLine = pl.next();
+                for(Iterator<LatLng> it = mPolyLine.getPoints().iterator(); it.hasNext();) {
+                    LatLng latLng = it.next();
+                    Location.distanceBetween(location.getLatitude(), location.getLongitude(), latLng.latitude, latLng.longitude, results);
+                    float distanceInMeters = results[0];
+                    if (distanceInMeters < 5) {
+                        mPolyLine.color(Color.MAGENTA);
+                        Log.d("TESTING POLYLINE LOC", "WORKING AS INTENDED");
+                        Log.d("Current LOC", location.getLatitude() + " :D " + location.getLongitude() + "");
+                        it.remove();
+                    }
+                }
+        }
+    }
+
+    @Override
+    public void onParserResult(List<List<LatLng>> result) {
+        PolylineOptions options = new PolylineOptions();
+
+        northEast = result.get(0).get(0);
+        southWest = result.get(0).get(1);
+        // The first list contained the bounds of the route and is not part of the route:
+        result.remove(0);
+
+        options.width(10);
+
+        for (List<LatLng> leg : result) {
+            options.color(Color.MAGENTA);
+            options.addAll(leg);
+            this.mPolylines.add(options);
+            options = new PolylineOptions();
+//                mPolylines.getPoints().size();
+        }
+        this.requestCount--;
+
+        Log.d("onPostExecute", "onPostExecute lineoptions decoded");
+
+//             Drawing polyline in the Google Map for the i-th route
+        if (mPolylines != null && this.requestCount == 0) {
+
+            for (PolylineOptions mPolyline : mPolylines) {
+                mMap.addPolyline(mPolyline);
+            }
+
+
+//                // zoom to bounding-box of the route:
+            LatLngBounds bounds = new LatLngBounds(southWest, northEast);
+            int padding = 20;
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
+//
+        } else {
+            Log.d("onPostExecute", "without Polylines drawn");
+        }
+    }
+
     // Fetches data from url passed
     private class FetchUrl extends AsyncTask<String, Void, String> {
+
+        private IDirectionsAPIHelper listener;
+
+        public FetchUrl(IDirectionsAPIHelper helper) {
+            this.listener = helper;
+        }
 
         @Override
         protected String doInBackground(String... url) {
@@ -249,7 +337,7 @@ public class DirectionsAPI {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            ParserTask parserTask = new ParserTask();
+            ParserTask parserTask = new ParserTask(listener);
 
             // Invokes the thread for parsing the JSON data
             parserTask.execute(result);
@@ -258,6 +346,12 @@ public class DirectionsAPI {
 
     // todo - error handling indien de aanroep niet geldig is (bijvoorbeeld limiet bereikt).
     private class ParserTask extends AsyncTask<String, Integer, List<List<LatLng>>> {
+
+        private IDirectionsAPIHelper helper;
+
+        public ParserTask(IDirectionsAPIHelper helper) {
+            this.helper = helper;
+        }
 
         // Parsing the data in non-ui thread
         @Override
@@ -288,34 +382,7 @@ public class DirectionsAPI {
         // Executes in UI thread, after the parsing process
         @Override
         protected void onPostExecute(List<List<LatLng>> result) {
-            PolylineOptions lineOptions = new PolylineOptions();
-
-            LatLng northEast = result.get(0).get(0);
-            LatLng southWest = result.get(0).get(1);
-            // The first list contained the bounds of the route and is not part of the route:
-            result.remove(0);
-
-            for (List<LatLng> leg : result) {
-                lineOptions.addAll(leg);
-            }
-
-            lineOptions.width(10);
-            lineOptions.color(Color.RED);
-
-            Log.d("onPostExecute", "onPostExecute lineoptions decoded");
-
-            // Drawing polyline in the Google Map for the i-th route
-            if (lineOptions != null) {
-                mMap.addPolyline(lineOptions);
-
-                // zoom to bounding-box of the route:
-                LatLngBounds bounds = new LatLngBounds(southWest, northEast);
-                int padding = 80;
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
-
-            } else {
-                Log.d("onPostExecute", "without Polylines drawn");
-            }
+            this.helper.onParserResult(result);
         }
     }
 }

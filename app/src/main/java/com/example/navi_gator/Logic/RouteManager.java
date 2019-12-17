@@ -58,8 +58,10 @@ public class RouteManager implements IUserNavigatorUpdater {
     private List<List<Waypoint>> divideWaypoints;
     private DirectionsAPI directionsAPI;
 
+    private LatLng currentGPSPos;
+
     public RouteManager(Context context, Activity mapActivity, GoogleMap mMap, InputStream route) {
-        gpsManager = new GPSManager(context, this);
+
         this.context = context;
         this.mapActivity = mapActivity;
         this.mMap = mMap;
@@ -74,7 +76,9 @@ public class RouteManager implements IUserNavigatorUpdater {
         this.route = routeReader.getRoute();
         createRouteWaypointOnMap();
 
-        this.directionsAPI = new DirectionsAPI(this.route, this.mMap); // For now left empty
+        gpsManager = new GPSManager(context, this);
+
+        setupDirectionsAPI();
 
 //        String valueTEST = this.directionsAPI.generateExtraWaypointsStringFromList(this.divideWaypoints.get(1));
 //        TestRouteStringGeneration();
@@ -189,15 +193,25 @@ public class RouteManager implements IUserNavigatorUpdater {
                 10, locationListener);
     }
 
+    public void setupDirectionsAPI () {
+        this.directionsAPI = new DirectionsAPI(this.route, this.mMap); // For now left empty
+    }
+
     @Override
     public void updateUserNavigatorLocation(Location location) {
         try {
 
             userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+            this.currentGPSPos = new LatLng(location.getLatitude(), location.getLongitude());
+            directionsAPI.checkPolyLineLocation(location);
 
         } catch (NullPointerException ex) {
             // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
             // this also makes sure to update the location if the GPS is disabled mid-way and re-enabled.
+
+
+            mMap.clear();
+            this.directionsAPI.drawPolyLinesOnMap();
 
             // creates the userNavigator marker, to show the current position on the map.
             MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))
@@ -206,6 +220,10 @@ public class RouteManager implements IUserNavigatorUpdater {
             userNavigator = mMap.addMarker(position);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
             mMap.setMinZoomPreference(10);
+
+            this.currentGPSPos = new LatLng(location.getLatitude(), location.getLongitude());
+
+            directionsAPI.checkPolyLineLocation(location);
 
             //TODO make notification
         }
