@@ -19,6 +19,7 @@ import com.example.navi_gator.Models.GPS.IUserNavigatorUpdater;
 import com.example.navi_gator.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -158,12 +159,29 @@ public class RouteManager implements IUserNavigatorUpdater {
     }
 
     private void createRouteWaypointOnMap() {
+
+
+
         for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
-            MarkerOptions routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
-                    .title(routeWaypoint.getName())
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker));
+            MarkerOptions routeWaypointMarker;
+            if (routeWaypoint.isVisited()) {
+                routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
+                        .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker))
+                        .visible(!routeWaypoint.isVisited());
+            } else {
+                routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
+                        .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker))
+                        .visible(!routeWaypoint.isVisited());
+            }
+
             mMap.addMarker(routeWaypointMarker);
         }
+
+
+
+
     }
 
     public void prepareLocationService() {
@@ -211,7 +229,12 @@ public class RouteManager implements IUserNavigatorUpdater {
         }
     }
 
-    public void checkWaypoint() {
-        // Interface?
+    public Waypoint getWaypointInRouteFromLatLng(LatLng markerPos){
+        for(Waypoint point : route.getRouteWaypoints()){
+            if (point.getLatlong().latitude == markerPos.latitude && point.getLatlong().longitude == markerPos.longitude){
+                return point;
+            }
+        }
+        return null;
     }
 }

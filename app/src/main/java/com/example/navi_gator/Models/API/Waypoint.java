@@ -8,12 +8,14 @@ public class Waypoint {
     private LatLng latlong;
     private String name;
     private String comment;
+    private boolean visited;
 
     public Waypoint(int number, LatLng latlong, String name, String comment) {
         this.number = number;
         this.latlong = latlong;
         this.name = name;
         this.comment = comment;
+        this.visited = false;
     }
 
     public int getNumber() {
@@ -46,6 +48,14 @@ public class Waypoint {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 
     @Override

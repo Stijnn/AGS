@@ -5,11 +5,14 @@ import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.example.navi_gator.Logic.RouteManager;
+import com.example.navi_gator.Models.API.Waypoint;
 import com.example.navi_gator.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -54,6 +57,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng breda = new LatLng(51.571915, 4.768323);
         mMap.addMarker(new MarkerOptions().position(breda).title("Marker in breda"));
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Waypoint point = controller.getWaypointInRouteFromLatLng(marker.getPosition());
+                point.setVisited(!point.isVisited());
+
+                if(point.isVisited()){
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker));
+                } else {
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker));
+                }
+
+                return false;
+            }
+        });
     }
 
 
