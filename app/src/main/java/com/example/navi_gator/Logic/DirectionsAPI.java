@@ -1,5 +1,4 @@
 package com.example.navi_gator.Logic;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -32,8 +31,9 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
     private String MY_API_KEY = "97cb2f24-ffa2-412b-ac7e-deb64176af35\n";
 
     private GoogleMap mMap;
-    private List<PolylineOptions> mPolylines;
-    private List<LatLng> mMarkerPoints;
+    private List<PolylineOptions> mPolyLinesOptions;
+    private List<Polyline> mPolylines;
+    private LatLng currentLastPolyLine;
 
     // Special prefixes used in the directions url formatting
     // These are used when assigning extra waypoints in the format of LatLng
@@ -42,7 +42,7 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
 
     private List<List<Waypoint>> divideWaypoints;
 
-    private final boolean backUpKeyRequired = true;
+    private final boolean backUpKeyRequired = false;
 
     private LatLng northEast;
     private LatLng southWest;
@@ -63,6 +63,7 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
         this.divideWaypoints = divideWaypoints();
         this.mMap = map;
         this.mPolylines = new ArrayList<>();
+        this.mPolyLinesOptions = new ArrayList<>();
         this.requestCount = this.divideWaypoints.size();
 
         createRoutePolyLinesOnMap(this);
@@ -101,8 +102,8 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
     }
 
     public void drawPolyLinesOnMap() {
-        if (mPolylines != null && this.requestCount == 0) {
-            for (PolylineOptions mPolyline : mPolylines) {
+        if (mPolyLinesOptions != null && this.requestCount == 0) {
+            for (PolylineOptions mPolyline : mPolyLinesOptions) {
                 mMap.addPolyline(mPolyline);
             }
         }
@@ -252,14 +253,13 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
     public void checkPolyLineLocation(Location location) {
         float[] results = new float[1];
 
-        for(Iterator<PolylineOptions> pl = this.mPolylines.iterator(); pl.hasNext();) {
-            PolylineOptions mPolyLine = pl.next();
+        for(Iterator<Polyline> pl = this.mPolylines.iterator(); pl.hasNext();) {
+            Polyline mPolyLine = pl.next();
                 for(Iterator<LatLng> it = mPolyLine.getPoints().iterator(); it.hasNext();) {
                     LatLng latLng = it.next();
                     Location.distanceBetween(location.getLatitude(), location.getLongitude(), latLng.latitude, latLng.longitude, results);
                     float distanceInMeters = results[0];
-                    if (distanceInMeters < 5) {
-                        mPolyLine.color(Color.MAGENTA);
+                    if (distanceInMeters < 10) {
                         Log.d("TESTING POLYLINE LOC", "WORKING AS INTENDED");
                         Log.d("Current LOC", location.getLatitude() + " :D " + location.getLongitude() + "");
                         it.remove();
@@ -271,32 +271,62 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
     @Override
     public void onParserResult(List<List<LatLng>> result) {
         PolylineOptions options = new PolylineOptions();
+        List<LatLng> positions = new ArrayList<>();
+
+
+        for (List<LatLng> list : result) {
+            positions.addAll(list);
+        }
 
         northEast = result.get(0).get(0);
         southWest = result.get(0).get(1);
         // The first list contained the bounds of the route and is not part of the route:
         result.remove(0);
 
-        options.width(10);
-
-        for (List<LatLng> leg : result) {
-            options.color(Color.MAGENTA);
-            options.addAll(leg);
-            this.mPolylines.add(options);
+        boolean newListRequired_2;
+        for (int i = 0; i < options.getPoints().size(); i++) {
+            options.add(positions.get(i));
+            options.add(positions.get(i + 1));
             options = new PolylineOptions();
-//                mPolylines.getPoints().size();
+            this.mPolyLinesOptions.add(options);
         }
+
+        options.width(3);
+        boolean newListRequired_3;
+        for (List<LatLng> list : result) {
+            for (int i = 0; i < list.size(); i++) {
+                newListRequired_2 = i % 2 == 1 && i != 1;
+                newListRequired_3 = i % 3 == 1 && i != 1;
+                if (newListRequired_2) {
+                    options.add(list.get(i));
+                    this.mPolyLinesOptions.add(options);
+                    options = new PolylineOptions();
+                    options.width(3);
+
+                } else if (newListRequired_3) {
+
+                    options.add(list.get(i-1));
+                    options.add(list.get(i));
+                    this.mPolyLinesOptions.add(options);
+                    options = new PolylineOptions();
+                    options.width(3);
+                } else {
+
+                    options.add(list.get(i));
+                }
+            }
+        }
+//        currentLastPolyLine;
         this.requestCount--;
 
         Log.d("onPostExecute", "onPostExecute lineoptions decoded");
 
 //             Drawing polyline in the Google Map for the i-th route
-        if (mPolylines != null && this.requestCount == 0) {
+        if (mPolyLinesOptions != null && this.requestCount == 0) {
 
-            for (PolylineOptions mPolyline : mPolylines) {
-                mMap.addPolyline(mPolyline);
+            for (PolylineOptions mPolyline : mPolyLinesOptions) {
+               this.mPolylines.add(mMap.addPolyline(mPolyline));
             }
-
 
 //                // zoom to bounding-box of the route:
             LatLngBounds bounds = new LatLngBounds(southWest, northEast);
@@ -382,7 +412,12 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
         // Executes in UI thread, after the parsing process
         @Override
         protected void onPostExecute(List<List<LatLng>> result) {
-            this.helper.onParserResult(result);
+            try {
+                this.helper.onParserResult(result);
+            } catch (NullPointerException ex) {
+                Log.e("onParserExecute", ex.getMessage() + ": Error occurred, direction-api not available\n" +
+                        "Check the API-key");
+            }
         }
     }
 }

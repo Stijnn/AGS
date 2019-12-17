@@ -85,9 +85,6 @@ public class RouteManager implements IUserNavigatorUpdater {
         gpsManager = new GPSManager(context, this);
 
         setupDirectionsAPI();
-
-//        String valueTEST = this.directionsAPI.generateExtraWaypointsStringFromList(this.divideWaypoints.get(1));
-//        TestRouteStringGeneration();
     }
 
     public GPSManager getGpsManager() {
@@ -181,13 +178,8 @@ public class RouteManager implements IUserNavigatorUpdater {
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker))
                         .visible(!routeWaypoint.isVisited());
             }
-
             mMap.addMarker(routeWaypointMarker);
         }
-
-
-
-
     }
 
     public void prepareLocationService() {
@@ -249,7 +241,7 @@ public class RouteManager implements IUserNavigatorUpdater {
         }
     }
 
-    public Waypoint getWaypointInRouteFromLatLngAndNextWaypointInt(LatLng markerPos, int nextWaypoint){
+    public Waypoint getWaypointInRouteFromLatLngAndNextWaypointInt(LatLng markerPos, int nextWaypoint) {
         Vector<Waypoint> waypoints = new Vector<>();
         for(Waypoint point : route.getRouteWaypoints()){
             if (point.getLatlong().latitude == markerPos.latitude && point.getLatlong().longitude == markerPos.longitude){
