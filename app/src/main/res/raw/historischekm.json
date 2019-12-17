@@ -161,109 +161,109 @@
       "name": "",
       "comment": "Eindpunt tot maart 2019’"
     },
-    {
+	{
       "number": 24,
+      "latitude": "51°35.6467’",
+      "longitude": "4°46.7650’",
+      "name": "VVV",
+      "comment": "Beginpunt t/m maart 2019"
+    },
+	{
+      "number": 25,
+      "latitude": "51°35.5967’",
+      "longitude": "4°46.7633’",
+      "name": "Liefdeszuster",
+      "comment": ""
+    },
+    {
+      "number": 26,
       "latitude": "51°35.5500’",
       "longitude": "4°46.7817’",
       "name": "Nassau Baronie Monument",
       "comment": ""
     },
     {
-      "number": 25,
+      "number": 27,
       "latitude": "51°35.5500’",
       "longitude": "4°46.7633’",
       "name": "",
       "comment": "Pad ten westen van monument"
     },
     {
-      "number": 26,
+      "number": 28,
       "latitude": "51°35.5700’",
       "longitude": "4°46.7083’",
       "name": "The Light House",
       "comment": ""
     },
     {
-      "number": 27,
+      "number": 29,
       "latitude": "51°35.5600’",
       "longitude": "4°46.6750’",
       "name": "",
       "comment": ""
     },
     {
-      "number": 28,
+      "number": 30,
       "latitude": "51°35.4367’",
       "longitude": "4°46.6200’",
       "name": "",
       "comment": "Einde park"
     },
     {
-      "number": 29,
+      "number": 31,
       "latitude": "51°35.4367’",
       "longitude": "4°46.5700’",
       "name": "Kasteel van Breda",
       "comment": "Kasteelplein"
     },
     {
-      "number": 30,
+      "number": 32,
       "latitude": "51°35.3817’",
       "longitude": "4°46.5683’",
       "name": "Stadhouderspoort",
       "comment": ""
     },
     {
-      "number": 31,
+      "number": 33,
       "latitude": "51°35.4200’",
       "longitude": "4°46.5600’",
       "name": "",
       "comment": "Kruising Kasteelplein/Cingelstraat"
     },
     {
-      "number": 32,
+      "number": 34,
       "latitude": "51°35.4233’",
       "longitude": "4°46.5000’",
       "name": "",
       "comment": "Bocht Cingelstraat"
     },
     {
-      "number": 33,
+      "number": 35,
       "latitude": "51°35.4017’",
       "longitude": "4°46.4617’",
       "name": "Huis van Brecht (rechter zijde)",
       "comment": ""
     },
     {
-      "number": 34,
+      "number": 36,
       "latitude": "51°35.4117’",
       "longitude": "4°46.4067’",
       "name": "Spanjaardsgat (rechter zijde)",
       "comment": ""
     },
     {
-      "number": 35,
+      "number": 37,
       "latitude": "51°35.3900’",
       "longitude": "4°46.4000’",
       "name": "Begin Vismarkt",
       "comment": ""
     },
     {
-      "number": 36,
+      "number": 38,
       "latitude": "51°35.3617’",
       "longitude": "4°46.4667’",
       "name": "Begin Havermarkt",
-      "comment": ""
-    },
-    {
-      "number": 37,
-      "latitude": "51°35.3267’",
-      "longitude": "4°46.4933’",
-      "name": "",
-      "comment": "Kruising Torenstraat/Kerkplein"
-    },
-    {
-      "number": 38,
-      "latitude": "51°35.3300’",
-      "longitude": "4°46.5167’",
-      "name": "Grote Kerk",
       "comment": ""
     },
     {
@@ -275,27 +275,41 @@
     },
     {
       "number": 40,
+      "latitude": "51°35.3300’",
+      "longitude": "4°46.5167’",
+      "name": "Grote Kerk",
+      "comment": ""
+    },
+    {
+      "number": 41,
+      "latitude": "51°35.3267’",
+      "longitude": "4°46.4933’",
+      "name": "",
+      "comment": "Kruising Torenstraat/Kerkplein"
+    },
+    {
+      "number": 42,
       "latitude": "51°35.2917’",
       "longitude": "4°46.5083’",
       "name": "Het Poortje",
       "comment": ""
     },
     {
-      "number": 41,
+      "number": 43,
       "latitude": "51°35.2250’",
       "longitude": "4°46.5450’",
       "name": "Ridderstraat",
       "comment": ""
     },
     {
-      "number": 42,
+      "number": 44,
       "latitude": "51°35.2450’",
       "longitude": "4°46.5933’",
       "name": "Grote Markt",
       "comment": "Zuidpunt Grote Markt"
     },
     {
-      "number": 43,
+      "number": 45,
       "latitude": "51°35.2817’",
       "longitude": "4°46.5800’",
       "name": "Bevrijdingsmonument",

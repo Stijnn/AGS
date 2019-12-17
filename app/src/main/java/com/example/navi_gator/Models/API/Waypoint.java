@@ -1,6 +1,9 @@
 package com.example.navi_gator.Models.API;
 
+import com.example.navi_gator.Models.Media.Media;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 public class Waypoint {
 
@@ -8,6 +11,8 @@ public class Waypoint {
     private LatLng latlong;
     private String name;
     private String comment;
+    private boolean visited;
+    private ArrayList<Media> mediaFiles;
 
     public static final String TABLE_NAME = "tbl_Waypoints";
     private boolean visited;
@@ -21,6 +26,8 @@ public class Waypoint {
         this.latlong = latlong;
         this.name = name;
         this.comment = comment;
+        this.visited = false;
+        this.mediaFiles = new ArrayList<>();
     }
 
     // Setup for the DatabaseManager
@@ -73,40 +80,12 @@ public class Waypoint {
         this.visited = visited;
     }
 
-    public String getId() {
-        return id;
+    public void addMediaFile(Media media){
+        this.mediaFiles.add(media);
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public double getLon() {
-        return lon;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public LatLng getPosition(){
-        return new LatLng(this.lat,this.lon);
+    public ArrayList<Media> getMediaFiles(){
+        return this.mediaFiles;
     }
 
     @Override
