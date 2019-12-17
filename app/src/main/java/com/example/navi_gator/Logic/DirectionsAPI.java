@@ -1,15 +1,11 @@
 package com.example.navi_gator.Logic;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.navi_gator.Models.API.Route;
 import com.example.navi_gator.Models.API.Waypoint;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -25,13 +21,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
-public class DirectionsAPI implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class DirectionsAPI {
 
     // The Google Maps Directions API will only work with a Server key.
-    private  static final String MY_API_KEY = "97cb2f24-ffa2-412b-ac7e-deb64176af35\n";
+    private static final String MY_API_KEY = "97cb2f24-ffa2-412b-ac7e-deb64176af35\n";
 
     private GoogleMap mMap;
     private LatLng mOrigin;
@@ -44,15 +40,109 @@ public class DirectionsAPI implements GoogleApiClient.ConnectionCallbacks,
     public final String pipeDividerCodePrefix = "%7C";
     public final String commaCodePrefix = "%2C";
 
-    public DirectionsAPI(GoogleMap mMap, LatLng mOrigin, LatLng mDestination, Polyline mPolyline, List<LatLng> mMarkerPoints) {
-        this.mMap = mMap;
-        this.mOrigin = mOrigin;
-        this.mDestination = mDestination;
-        this.mPolyline = mPolyline;
-        this.mMarkerPoints = mMarkerPoints;
+    private List<List<Waypoint>> divideWaypoints;
+
+    private Route route;
+
+    private int index;
+
+    public DirectionsAPI(Route route, GoogleMap map) {
+        this.route = route;
+        this.divideWaypoints = divideWaypoints();
+        this.mMap = map;
+
+        createRoutePolyLinesOnMap();
+        mMap.setMaxZoomPreference(17);
+        mMap.setMinZoomPreference(15);
     }
 
-    public DirectionsAPI() {
+    public void TestRouteStringGeneration() {
+        for (int i = 0; i < this.divideWaypoints.size(); i++) {
+            if (i == 0) {
+                generateRouteStartURL();
+            } else {
+                generateRouteRestURL(i);
+            }
+        }
+    }
+
+    private List<List<Waypoint>> divideWaypoints() {
+        List<List<Waypoint>> waypointListDivided = new ArrayList<>();
+
+        boolean newListRequired;
+        List<Waypoint> waypointsOfRoute = this.route.getRouteWaypoints();
+        List<Waypoint> dividedList = new ArrayList<>();
+
+        for (int i = 1; i <= this.route.getRouteWaypoints().size(); i++) {
+            newListRequired = i % 9 == 1 && i != 1;
+            if (newListRequired) {
+                waypointListDivided.add(dividedList);
+                dividedList = new ArrayList<>();
+            }
+            dividedList.add(waypointsOfRoute.get(i - 1));
+        }
+        waypointListDivided.add(dividedList);
+        return waypointListDivided;
+    }
+
+    public void createRoutePolyLinesOnMap() {
+        this.index = 0;
+
+        for (int i = 0; i < this.divideWaypoints.size(); i++) {
+            if (i == 0) {
+                Thread threadStart = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String routeStartURL = generateRouteStartURL();
+                        FetchUrl FetchUrl = new FetchUrl();
+                        FetchUrl.execute(routeStartURL);
+                        index++;
+                    }
+                });
+                FetchUrl.SERIAL_EXECUTOR.execute(threadStart);
+
+            } else {
+                Thread threadRest = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String routeRestURL = generateRouteRestURL(index);
+                        FetchUrl FetchUrl = new FetchUrl();
+                        FetchUrl.execute(routeRestURL);
+                        index++;
+                    }
+                });
+                FetchUrl.SERIAL_EXECUTOR.execute(threadRest);
+            }
+        }
+    }
+
+    public String generateRouteStartURL() {
+        String output = "";
+        List<Waypoint> waypoints = this.divideWaypoints.get(0);
+        output = getDirectionsUrl(
+                waypoints.get(0).getLatlong(),
+                waypoints.get(waypoints.size() - 1).getLatlong(),
+                generateExtraWaypointsStringFromList(waypoints));
+        Log.wtf("TESTING GEN ALL URL", "Testing item: String output\n" + output + "\n" +
+                "With the route starting with waypoint number: 1" +
+                ", And ending with: " + waypoints.get(waypoints.size() - 1).getNumber() + "\n" + "---------------------------------------------------------------");
+        return output;
+    }
+
+    public String generateRouteRestURL(int segment) {
+        String output = "";
+        List<Waypoint> waypointsList = this.divideWaypoints.get(segment);
+        Waypoint lastWaypoint = this.divideWaypoints.get(segment - 1).get(this.divideWaypoints.get(segment - 1).size() - 1);
+
+        output = getDirectionsUrl(
+                lastWaypoint.getLatlong(),
+                waypointsList.get(waypointsList.size() - 1).getLatlong(),
+                generateExtraWaypointsStringFromList(waypointsList));
+        Log.wtf("TESTING GEN ALL URL", "Testing item: String output\n" + output + "\n" +
+                "With the route starting with waypoint number: " + lastWaypoint.getNumber() +
+                ", And ending with: " + waypointsList.get(waypointsList.size() - 1).getNumber() + "\n" + "---------------------------------------------------------------");
+
+        return output;
     }
 
     public String generateExtraWaypointsStringFromList(List<Waypoint> waypointsToConvert) {
@@ -60,26 +150,15 @@ public class DirectionsAPI implements GoogleApiClient.ConnectionCallbacks,
 
         int length = 0;
 
-        for (Waypoint waypoint : waypointsToConvert) {
-            waypointString.append(waypoint.getLatlong().latitude).append(commaCodePrefix).append(waypoint.getLatlong().longitude).append(pipeDividerCodePrefix);
+        for (int i = 0; i < waypointsToConvert.size() - 1; i++) {
+            waypointString.append(waypointsToConvert.get(i).getLatlong().latitude).append(commaCodePrefix).append(waypointsToConvert.get(i).getLatlong().longitude).append(pipeDividerCodePrefix);
         }
         length = waypointString.length();
 
         return String.valueOf(waypointString).substring(0, length - 3);
     }
 
-    private void drawRoute(){
-
-        // Getting URL to the Google Directions API
-        String url = getDirectionsUrl(mOrigin, mDestination, null);
-
-        DownloadTask downloadTask = new DownloadTask();
-
-        // Start downloading json data from Google Directions API
-        downloadTask.execute(url);
-    }
-
-    private String getDirectionsUrl(LatLng startingPostion, LatLng destination, @Nullable String extraWaypoints){
+    public String getDirectionsUrl(LatLng startingPostion, LatLng destination, @Nullable String extraWaypoints) {
 
         String str_origin = "origin=" + startingPostion.latitude + "," + startingPostion.longitude;
 
@@ -106,12 +185,14 @@ public class DirectionsAPI implements GoogleApiClient.ConnectionCallbacks,
         return url;
     }
 
-    /** A method to download json data from url */
+    /**
+     * A method to download json data from url
+     */
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
-        try{
+        try {
             URL url = new URL(strUrl);
 
             // Creating an http connection to communicate with url
@@ -125,75 +206,27 @@ public class DirectionsAPI implements GoogleApiClient.ConnectionCallbacks,
 
             BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
 
-            StringBuffer sb  = new StringBuffer();
+            StringBuffer sb = new StringBuffer();
 
             String line = "";
-            while( ( line = br.readLine())  != null){
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
 
             data = sb.toString();
-
+            Log.d("downloadUrl", data.toString());
             br.close();
 
-        }catch(Exception e){
-            Log.d("Exception on download", e.toString());
-        }finally{
+        } catch (Exception e) {
+            Log.d("Exception", e.toString());
+        } finally {
             iStream.close();
             urlConnection.disconnect();
         }
         return data;
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    /** A class to download data from Google Directions URL */
-    private class DownloadTask extends AsyncTask<String, Void, String> {
-
-        // Downloading data in non-ui thread
-        @Override
-        protected String doInBackground(String... url) {
-
-            // For storing data from web service
-            String data = "";
-
-            try{
-                // Fetching the data from web service
-                data = downloadUrl(url[0]);
-                Log.d("DownloadTask","DownloadTask : " + data);
-            }catch(Exception e){
-                Log.d("Background Task",e.toString());
-            }
-            return data;
-        }
-
-        // Executes in UI thread, after the execution of
-        // doInBackground()
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            ParserTask parserTask = new ParserTask();
-
-            // Invokes the thread for parsing the JSON data
-            parserTask.execute(result);
-        }
-    }
-
-    /** A class to parse the Google Directions in JSON format */
+    // Fetches data from url passed
     private class FetchUrl extends AsyncTask<String, Void, String> {
 
         @Override
@@ -220,10 +253,10 @@ public class DirectionsAPI implements GoogleApiClient.ConnectionCallbacks,
 
             // Invokes the thread for parsing the JSON data
             parserTask.execute(result);
-
         }
     }
 
+    // todo - error handling indien de aanroep niet geldig is (bijvoorbeeld limiet bereikt).
     private class ParserTask extends AsyncTask<String, Integer, List<List<LatLng>>> {
 
         // Parsing the data in non-ui thread

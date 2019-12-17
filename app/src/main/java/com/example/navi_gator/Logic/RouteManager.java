@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -63,7 +64,6 @@ public class RouteManager implements IUserNavigatorUpdater {
         this.mapActivity = mapActivity;
         this.mMap = mMap;
         this.routeStream = route;
-        this.directionsAPI = new DirectionsAPI(); // For now left empty
 
         try {
             routeReader = new RouteReader(this.routeStream);
@@ -74,9 +74,68 @@ public class RouteManager implements IUserNavigatorUpdater {
         this.route = routeReader.getRoute();
         createRouteWaypointOnMap();
 
-        this.divideWaypoints = divideWaypoints();
+        this.directionsAPI = new DirectionsAPI(this.route, this.mMap); // For now left empty
 
-        String valueTEST = this.directionsAPI.generateExtraWaypointsStringFromList(this.divideWaypoints.get(1));
+//        String valueTEST = this.directionsAPI.generateExtraWaypointsStringFromList(this.divideWaypoints.get(1));
+//        TestRouteStringGeneration();
+    }
+
+    public GPSManager getGpsManager() {
+        return gpsManager;
+    }
+
+    public void setGpsManager(GPSManager gpsManager) {
+        this.gpsManager = gpsManager;
+    }
+
+    public String generateRouteStartURL() {
+        String output = "";
+        List<Waypoint> waypoints = this.divideWaypoints.get(0);
+        output = this.directionsAPI.getDirectionsUrl(
+                waypoints.get(0).getLatlong(),
+                waypoints.get(waypoints.size() - 1).getLatlong(),
+                this.directionsAPI.generateExtraWaypointsStringFromList(waypoints));
+        Log.wtf("TESTING GEN ALL URL", "Testing item: String output\n" + output + "\n" +
+                "With the route starting with waypoint number: 1" +
+               ", And ending with: " + waypoints.get(waypoints.size() - 1).getNumber() + "\n" + "---------------------------------------------------------------");
+        return output;
+    }
+
+    public String generateRouteRestURL(int segment) {
+        String output = "";
+        List<Waypoint> waypointsList = this.divideWaypoints.get(segment);
+        Waypoint lastWaypoint = this.divideWaypoints.get(segment - 1).get(this.divideWaypoints.get(segment - 1).size() - 1);
+
+        output = this.directionsAPI.getDirectionsUrl(
+                lastWaypoint.getLatlong(),
+                waypointsList.get(waypointsList.size() - 1).getLatlong(),
+                this.directionsAPI.generateExtraWaypointsStringFromList(waypointsList));
+        Log.wtf("TESTING GEN ALL URL", "Testing item: String output\n" + output  + "\n" +
+                "With the route starting with waypoint number: " + lastWaypoint.getNumber() +
+                ", And ending with: " + waypointsList.get(waypointsList.size() - 1).getNumber() + "\n" + "---------------------------------------------------------------");
+
+        return output;
+    }
+
+    public void TestRouteStringGeneration() {
+        for (int i = 0; i < this.divideWaypoints.size(); i++) {
+            if (i == 0) {
+                generateRouteStartURL();
+            } else {
+                generateRouteRestURL(i);
+            }
+        }
+    }
+
+    public void createRoutePolyLinesOnMap() {
+        for (int i = 0; i < this.divideWaypoints.size(); i++) {
+            if (i == 0) {
+                String routeStartURL = generateRouteStartURL();
+
+            } else {
+                String routeRestURL = generateRouteRestURL(i);
+            }
+        }
     }
 
     private List<List<Waypoint>> divideWaypoints() {
@@ -105,14 +164,6 @@ public class RouteManager implements IUserNavigatorUpdater {
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker));
             mMap.addMarker(routeWaypointMarker);
         }
-    }
-
-    public GPSManager getGpsManager() {
-        return gpsManager;
-    }
-
-    public void setGpsManager(GPSManager gpsManager) {
-        this.gpsManager = gpsManager;
     }
 
     public void prepareLocationService() {
