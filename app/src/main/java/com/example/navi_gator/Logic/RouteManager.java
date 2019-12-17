@@ -27,7 +27,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 
 import static com.example.navi_gator.Models.GPS.GPSManager.PERMISSION_STRING;
 
@@ -58,6 +60,9 @@ public class RouteManager implements IUserNavigatorUpdater {
     // DirectionsAPI
     private List<List<Waypoint>> divideWaypoints;
     private DirectionsAPI directionsAPI;
+
+    // Route progressie
+    public int nextWaypoint = 1;
 
     public RouteManager(Context context, Activity mapActivity, GoogleMap mMap, InputStream route) {
         gpsManager = new GPSManager(context, this);
@@ -229,11 +234,24 @@ public class RouteManager implements IUserNavigatorUpdater {
         }
     }
 
-    public Waypoint getWaypointInRouteFromLatLng(LatLng markerPos){
+    public Waypoint getWaypointInRouteFromLatLngAndNextWaypointInt(LatLng markerPos, int nextWaypoint){
+        Vector<Waypoint> waypoints = new Vector<>();
         for(Waypoint point : route.getRouteWaypoints()){
             if (point.getLatlong().latitude == markerPos.latitude && point.getLatlong().longitude == markerPos.longitude){
-                return point;
+                waypoints.add(point);
+        }
+        }
+        try {
+            if (waypoints.size() == 1) {
+                return waypoints.get(0);
+            } else if (waypoints.size() > 1) {
+                for (Waypoint point : waypoints) {
+                    if (point.getNumber() < nextWaypoint) waypoints.remove(point);
+                }
+                return waypoints.get(0);
             }
+        } catch (Exception e){
+            return waypoints.get(0);
         }
         return null;
     }

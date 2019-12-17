@@ -27,7 +27,7 @@ import java.util.List;
 public class DirectionsAPI {
 
     // The Google Maps Directions API will only work with a Server key.
-    private static final String MY_API_KEY = "97cb2f24-ffa2-412b-ac7e-deb64176af35\n";
+    private static final String MY_API_KEY = "b9b76fa5-992f-4271-bdb3-3a5e2ebc0bf3\n";
 
     private GoogleMap mMap;
     private LatLng mOrigin;

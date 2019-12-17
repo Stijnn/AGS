@@ -61,15 +61,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Waypoint point = controller.getWaypointInRouteFromLatLng(marker.getPosition());
-                point.setVisited(!point.isVisited());
+                Waypoint point = controller.getWaypointInRouteFromLatLngAndNextWaypointInt(marker.getPosition(), controller.nextWaypoint);
 
-                if(point.isVisited()){
-                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker));
-                } else {
-                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker));
+                if (point.getNumber() == controller.nextWaypoint) {
+
+                    controller.nextWaypoint++;
+                    point.setVisited(true);
+
+                    if (point.isVisited()) {
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker));
+                    }
+
+
                 }
-
                 return false;
             }
         });
