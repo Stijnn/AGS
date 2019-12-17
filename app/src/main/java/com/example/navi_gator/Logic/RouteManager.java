@@ -28,7 +28,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import static com.example.navi_gator.Models.GPS.GPSManager.PERMISSION_STRING;
@@ -65,6 +67,7 @@ public class RouteManager implements IUserNavigatorUpdater {
 
     // Route progressie
     public int nextWaypoint = 1;
+    private HashMap<Waypoint, MarkerOptions> markers;
 
     public RouteManager(Context context, Activity mapActivity, GoogleMap mMap, InputStream route) {
 
@@ -72,6 +75,7 @@ public class RouteManager implements IUserNavigatorUpdater {
         this.mapActivity = mapActivity;
         this.mMap = mMap;
         this.routeStream = route;
+        this.markers = new HashMap<>();
 
         try {
             routeReader = new RouteReader(this.routeStream);
@@ -96,6 +100,10 @@ public class RouteManager implements IUserNavigatorUpdater {
 
     public void setGpsManager(GPSManager gpsManager) {
         this.gpsManager = gpsManager;
+    }
+
+    public HashMap<Waypoint, MarkerOptions> getMarkers() {
+        return markers;
     }
 
     public String generateRouteStartURL() {
@@ -170,24 +178,41 @@ public class RouteManager implements IUserNavigatorUpdater {
     private void createRouteWaypointOnMap() {
         for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
             MarkerOptions routeWaypointMarker;
-            if (routeWaypoint.isVisited()) {
+            if (routeWaypoint.getNumber() == nextWaypoint){
                 routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
                         .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.next_marker))
                         .visible(!routeWaypoint.isVisited());
             } else {
-                routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
-                        .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker))
-                        .visible(!routeWaypoint.isVisited());
+                if (routeWaypoint.isVisited()) {
+                    routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
+                            .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker))
+                            .visible(!routeWaypoint.isVisited());
+                } else {
+                    routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
+                            .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker))
+                            .visible(!routeWaypoint.isVisited());
+                }
             }
-
+            this.markers.put(routeWaypoint, routeWaypointMarker);
             mMap.addMarker(routeWaypointMarker);
         }
 
+    }
 
+    public void updateNextMarker(){
+        Waypoint nextWaypoint = getNextWaypoint();
 
+        if (nextWaypoint != null) markers.get(nextWaypoint).icon(BitmapDescriptorFactory.fromResource(R.drawable.next_marker));
+    }
 
+    public Waypoint getNextWaypoint(){
+        for (Waypoint point : route.getRouteWaypoints()){
+            if (point.getNumber() == nextWaypoint) return point;
+        }
+        return null;
     }
 
     public void prepareLocationService() {

@@ -55,8 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         controller.prepareLocationService();
         // Add a marker in Breda and move the camera
 
-        LatLng breda = new LatLng(51.571915, 4.768323);
-        mMap.addMarker(new MarkerOptions().position(breda).title("Marker in breda"));
+        //LatLng breda = new LatLng(51.571915, 4.768323);
+        //mMap.addMarker(new MarkerOptions().position(breda).title("Marker in breda"));
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -72,6 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker));
                     }
 
+                    controller.updateNextMarker();
 
                 }
                 return false;
