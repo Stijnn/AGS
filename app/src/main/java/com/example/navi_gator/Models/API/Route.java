@@ -8,6 +8,8 @@ public class Route {
     private boolean finished;
 
     // Current route setup
+    private List<Waypoint> routeWaypoints;
+
     public Route(List<Waypoint> waypoints) {
         this.routeWaypoints = waypoints;
     }
@@ -51,8 +53,6 @@ public class Route {
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
-
-    private List<Waypoint> routeWaypoints;
 
     public List<Waypoint> getRouteWaypoints() {
         return routeWaypoints;

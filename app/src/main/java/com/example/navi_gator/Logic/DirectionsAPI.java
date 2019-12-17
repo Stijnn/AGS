@@ -68,7 +68,7 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
 
         createRoutePolyLinesOnMap(this);
 
-        mMap.setMaxZoomPreference(20);
+        mMap.setMaxZoomPreference(10);
         mMap.setMinZoomPreference(15);
     }
 

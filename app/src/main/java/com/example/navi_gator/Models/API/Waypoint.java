@@ -6,7 +6,6 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 public class Waypoint {
-
     private int number;
     private LatLng latlong;
     private String name;
