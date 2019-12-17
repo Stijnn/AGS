@@ -168,9 +168,6 @@ public class RouteManager implements IUserNavigatorUpdater {
     }
 
     private void createRouteWaypointOnMap() {
-
-
-
         for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
             MarkerOptions routeWaypointMarker;
             if (routeWaypoint.isVisited()) {
@@ -232,9 +229,9 @@ public class RouteManager implements IUserNavigatorUpdater {
             // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
             // this also makes sure to update the location if the GPS is disabled mid-way and re-enabled.
 
-
             mMap.clear();
             this.directionsAPI.drawPolyLinesOnMap();
+            createRouteWaypointOnMap();
 
             // creates the userNavigator marker, to show the current position on the map.
             MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))

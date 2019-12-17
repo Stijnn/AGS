@@ -15,7 +15,6 @@ public class Waypoint {
     private ArrayList<Media> mediaFiles;
 
     public static final String TABLE_NAME = "tbl_Waypoints";
-    private boolean visited;
     private String id, description, image;
 
     private double lon, lat;
