@@ -11,6 +11,7 @@
     <string name="waypoint_details">Details</string>
     <string name="waypoint_image">Afbeelding</string>
     <string name="waypoint_title">Titel</string>
-    <string name="waypoints_btn">Waypoints</string>
+    <string name="waypoints">Waypoints</string>
     <string name="title_fragment_setting">Instellingen</string>
+    <string name="nodetails">Geen Details</string>
 </resources>

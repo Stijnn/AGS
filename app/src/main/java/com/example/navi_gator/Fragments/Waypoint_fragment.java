@@ -1,7 +1,6 @@
 package com.example.navi_gator.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.example.navi_gator.Interface.OnFragmentInteractionListener;
 import com.example.navi_gator.Models.API.Waypoint;
 import com.example.navi_gator.R;
-import com.google.android.gms.maps.model.Marker;
 
 
 public class Waypoint_fragment extends Fragment {
@@ -57,7 +55,7 @@ public class Waypoint_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.waypoint_fragment, container, false);
-        this.title = view.findViewById(R.id.waypoint_title);
+        this.title = view.findViewById(R.id.waypoint_name);
         this.details = view.findViewById(R.id.waypoint_details);
         this.image = view.findViewById(R.id.waypoint_image);
 

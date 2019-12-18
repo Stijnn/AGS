@@ -35,6 +35,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Op de activity staat de navigationFragment en routeController.
      */
 
+
     private GoogleMap mMap;
     private Button help_btn;
     private Button burger_btn;
@@ -59,13 +60,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         help_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //openHelpFragment();
-                //openWaypointFragment(new Waypoint(5,new LatLng(200.0,200.0),"kip","ik hou van kip"));
+                openHelpFragment();
             }
         });
-
-
-
         burger_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,12 +103,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void openWaypointFragment(Waypoint waypoint) {
-        Waypoint_fragment fragment = Waypoint_fragment.newInstance(waypoint);
+        final Waypoint_fragment fragment = Waypoint_fragment.newInstance(waypoint);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.exit_to_bottom, R.anim.enter_from_bottom, R.anim.exit_to_bottom);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.dummy_container, fragment, "waypoint_fragment").commit();
+        transaction.replace(R.id.wayPointLayout, fragment, "waypoint_fragment").commit();
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                fragment.sendBack();
+            }
+        });
+
+        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int i) {
+                fragment.sendBack();
+            }
+        });
     }
 
 

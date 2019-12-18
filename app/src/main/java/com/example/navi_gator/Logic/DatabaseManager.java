@@ -111,6 +111,30 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return waypoints;
     }
 
+    public ArrayList<Waypoint> getWaypoints() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s;", "tbl_RouteWaypoints"), new String[]{});
+        ArrayList<Waypoint> waypoints = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Cursor waypointCursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id == '%s';", Waypoint.TABLE_NAME, cursor.getString(1)), new String[]{});
+
+                if (waypointCursor.moveToFirst()) {
+                    waypoints.add(new Waypoint(
+                            cursor.getInt(2) > 0,
+                            cursor.getString(1),
+                            waypointCursor.getString(1),
+                            waypointCursor.getString(2),
+                            waypointCursor.getDouble(3),
+                            waypointCursor.getDouble(4))
+                    );
+                }
+            }
+            while (cursor.moveToNext());
+        }
+        return waypoints;
+    }
+
     /**
      * Updates route
      * @param route object to update

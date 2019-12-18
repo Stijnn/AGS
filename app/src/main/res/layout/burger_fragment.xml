@@ -59,7 +59,7 @@
         android:background="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/route" />
+        app:layout_constraintTop_toBottomOf="@id/route_btn" />
 
     <TextView
         android:id="@+id/textView"
@@ -79,14 +79,14 @@
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="2dp"
-        android:text="@string/waypoints_btn"
+        android:text="@string/waypoints"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Line" />
 
     <Button
-        android:id="@+id/route"
+        android:id="@+id/route_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
