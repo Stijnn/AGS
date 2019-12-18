@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import com.example.navi_gator.Fragments.Burger_fragment;
 import com.example.navi_gator.Fragments.Help_fragment;
 import com.example.navi_gator.Fragments.Loading_fragment;
+import com.example.navi_gator.Fragments.Waypoint_fragment;
 import com.example.navi_gator.Interface.OnFragmentInteractionListener;
 import com.example.navi_gator.Logic.RouteManager;
 import com.example.navi_gator.Models.API.Waypoint;
@@ -24,7 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback , OnFragmentInteractionListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnFragmentInteractionListener {
 
     /**
      * De map activity is waar de gebruiker de meeste tijd zal besteden.
@@ -54,7 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         help_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               openHelpFragment();
+                //openHelpFragment();
+                openWaypointFragment(new Waypoint(5,new LatLng(200.0,200.0),"kip","ik hou van kip"));
             }
         });
 
@@ -70,31 +72,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    public void openHelpFragment(){
+    public void openHelpFragment() {
         Help_fragment fragment = Help_fragment.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_left,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_left);
+        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_left);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.map_container,fragment,"help_fragment").commit();
+        transaction.replace(R.id.map_container, fragment, "help_fragment").commit();
     }
 
-    public void openBurgerFragment(){
+    public void openBurgerFragment() {
         Burger_fragment fragment = Burger_fragment.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right);
+        transaction.setCustomAnimations(R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.dummy_container,fragment,"burger_fragment").commit();
+        transaction.replace(R.id.dummy_container, fragment, "burger_fragment").commit();
     }
 
-    public void openLoadingFragment(){
+    public void openLoadingFragment() {
         Loading_fragment fragment = Loading_fragment.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.exit_to_bottom,R.anim.enter_from_bottom,R.anim.exit_to_bottom);
+        transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.exit_to_bottom, R.anim.enter_from_bottom, R.anim.exit_to_bottom);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.map_container,fragment,"loading_fragment").commit();
+        transaction.replace(R.id.map_container, fragment, "loading_fragment").commit();
+    }
+
+    public void openWaypointFragment(Waypoint waypoint) {
+        Waypoint_fragment fragment = Waypoint_fragment.newInstance(waypoint);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.exit_to_bottom, R.anim.enter_from_bottom, R.anim.exit_to_bottom);
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.wayPointLayout, fragment, "waypoint_fragment").commit();
     }
 
 
@@ -150,6 +161,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onFragmentInteraction() {
-       onBackPressed();
+        onBackPressed();
     }
 }

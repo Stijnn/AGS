@@ -19,18 +19,15 @@ import com.google.android.gms.maps.model.Marker;
 
 
 public class Waypoint_fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final Waypoint waypoint = null;
 
-    // TODO: Rename and change types of parameters
-    private Waypoint waypoint1;
+
+    private Waypoint mwaypoint;
 
     private OnFragmentInteractionListener mListener;
 
-    TextView title;
-    TextView details;
-    ImageView image;
+    private TextView title;
+    private TextView details;
+    private ImageView image;
 
     public Waypoint_fragment() {
         // Required empty public constructor
@@ -48,7 +45,7 @@ public class Waypoint_fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            waypoint1 = (Waypoint)getArguments().getSerializable("waypoint");
+            mwaypoint = (Waypoint)getArguments().getSerializable("waypoint");
         }
     }
 
@@ -60,9 +57,9 @@ public class Waypoint_fragment extends Fragment {
         this.details = view.findViewById(R.id.waypoint_details);
         this.image = view.findViewById(R.id.waypoint_image);
 
-        //TODO model waypoint needs title
-        //this.title.setText(waypoint1.getTitle());
-        this.details.setText(waypoint1.getDescription());
+        this.title.setText(mwaypoint.getName());
+        this.details.setText(mwaypoint.getComment());
+        //TODO image
         //this.image.setImageResource(R.id.);
 
         return view;

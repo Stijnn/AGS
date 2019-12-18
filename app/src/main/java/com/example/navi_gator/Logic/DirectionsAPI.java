@@ -44,7 +44,7 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
 
     private List<List<Waypoint>> divideWaypoints;
 
-    private final boolean backUpKeyRequired = false;
+    private final boolean backUpKeyRequired = true;
 
     private LatLng northEast;
     private LatLng southWest;
