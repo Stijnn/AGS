@@ -64,6 +64,9 @@ public class Loading_fragment extends Fragment {
     }
 
     private void setText(final CharSequence text) {
+        if (getActivity() == null){
+            return;
+        }
        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
