@@ -84,23 +84,30 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE route_id == '%s';", "tbl_RouteWaypoints", route.getId()), new String[]{});
         ArrayList<Waypoint> waypoints = new ArrayList<>();
+        ArrayList<String> waypoint_ids = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                Cursor waypointCursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id == '%s';", Waypoint.TABLE_NAME, cursor.getString(1)), new String[]{});
-
-                if (waypointCursor.moveToFirst()) {
-                    waypoints.add(new Waypoint(
-                            cursor.getInt(2) > 0, //Visited
-                            cursor.getString(1),         //Id
-                            waypointCursor.getInt(1), //Number
-                            new LatLng(waypointCursor.getDouble(5), waypointCursor.getDouble(4)),
-                            waypointCursor.getString(3), //name
-                            waypointCursor.getString(2)) //description
-                    );
-                }
+                waypoint_ids.add(cursor.getString(1));
             }
             while (cursor.moveToNext());
         }
+        cursor.close();
+
+        for (int i = 0; i < waypoint_ids.size(); i++) {
+            Cursor waypointCursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id == '%s';", Waypoint.TABLE_NAME, waypoint_ids.get(i)), new String[]{});
+            if (waypointCursor.moveToFirst()) {
+                waypoints.add(new Waypoint(
+                        cursor.getInt(2) > 0, //Visited
+                        cursor.getString(1),         //Id
+                        waypointCursor.getInt(1), //Number
+                        new LatLng(waypointCursor.getDouble(5), waypointCursor.getDouble(4)),
+                        waypointCursor.getString(3), //name
+                        waypointCursor.getString(2)) //description
+                );
+            }
+            waypointCursor.close();
+        }
+
         return waypoints;
     }
 
