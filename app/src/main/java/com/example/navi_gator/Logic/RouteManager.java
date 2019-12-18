@@ -84,7 +84,7 @@ public class RouteManager implements IUserNavigatorUpdater {
         }
 
         this.route = routeReader.getRoute();
-        createRouteWaypointOnMap();
+        createRouteWaypointsOnMap();
 
         gpsManager = new GPSManager(context, this);
 
@@ -172,7 +172,7 @@ public class RouteManager implements IUserNavigatorUpdater {
         return waypointListDivided;
     }
 
-    private void createRouteWaypointOnMap() {
+    private void createRouteWaypointsOnMap() {
         for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
             Marker marker;
             MarkerOptions routeWaypointMarker;
@@ -256,7 +256,7 @@ public class RouteManager implements IUserNavigatorUpdater {
 
             mMap.clear();
             this.directionsAPI.drawPolyLinesOnMap();
-            createRouteWaypointOnMap();
+            createRouteWaypointsOnMap();
 
             // creates the userNavigator marker, to show the current position on the map.
             MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))

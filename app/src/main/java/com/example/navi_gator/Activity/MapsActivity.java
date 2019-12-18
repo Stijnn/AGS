@@ -33,6 +33,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
 
     private GoogleMap mMap;
+    private Button help_btn;
+    private Button burger_btn;
+    private FrameLayout helpLayout;
+    private FrameLayout burgerLayout;
+    private FrameLayout dummyLayout;
     private RouteManager controller;
 
     @Override

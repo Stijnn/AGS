@@ -3,9 +3,10 @@ package com.example.navi_gator.Models.API;
 import com.example.navi_gator.Models.Media.Media;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Waypoint {
+public class Waypoint implements Serializable {
     private int number;
     private LatLng latlong;
     private String name;
@@ -20,23 +21,23 @@ public class Waypoint {
 
     // Current Setup for the RouteManager
     public Waypoint(int number, LatLng latlong, String name, String comment) {
-        this.number = number;
-        this.latlong = latlong;
-        this.name = name;
-        this.comment = comment;
-        this.visited = false;
-        this.mediaFiles = new ArrayList<>();
-    }
+            this.number = number;
+            this.latlong = latlong;
+            this.name = name;
+            this.comment = comment;
+            this.visited = false;
+            this.mediaFiles = new ArrayList<>();
+        }
 
-    // Setup for the DatabaseManager
-    public Waypoint(boolean visited, String id, String description, String image) {
-        this.visited = visited;
-        this.id = id;
-        this.description = description;
-        this.image = image;
-        this.lon = getLatlong().latitude;
-        this.lat = getLatlong().longitude;
-    }
+        // Setup for the DatabaseManager
+        public Waypoint(boolean visited, String id, String description, String image, double lon, double lat) {
+            this.visited = visited;
+            this.id = id;
+            this.description = description;
+            this.image = image;
+            this.lon = lon;
+            this.lat = lat;
+        }
 
     public int getNumber() {
         return number;
@@ -78,12 +79,52 @@ public class Waypoint {
         this.visited = visited;
     }
 
-    public void addMediaFile(Media media){
-        this.mediaFiles.add(media);
+    public ArrayList<Media> getMediaFiles() {
+        return mediaFiles;
     }
 
-    public ArrayList<Media> getMediaFiles(){
-        return this.mediaFiles;
+    public void setMediaFiles(ArrayList<Media> mediaFiles) {
+        this.mediaFiles = mediaFiles;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
     @Override
