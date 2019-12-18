@@ -1,4 +1,5 @@
 package com.example.navi_gator.Logic;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -33,7 +34,8 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
     private GoogleMap mMap;
     private List<PolylineOptions> mPolyLinesOptions;
     private List<Polyline> mPolylines;
-    private LatLng currentLastPolyLine;
+    private List<LatLng> passedPoints;
+    private List<Polyline> linesPasser;
 
     // Special prefixes used in the directions url formatting
     // These are used when assigning extra waypoints in the format of LatLng
@@ -62,13 +64,15 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
         this.route = route;
         this.divideWaypoints = divideWaypoints();
         this.mMap = map;
+        this.passedPoints = new ArrayList<>();
         this.mPolylines = new ArrayList<>();
         this.mPolyLinesOptions = new ArrayList<>();
+        this.linesPasser = new ArrayList<>();
         this.requestCount = this.divideWaypoints.size();
 
         createRoutePolyLinesOnMap(this);
 
-        mMap.setMaxZoomPreference(10);
+        mMap.setMaxZoomPreference(20);
         mMap.setMinZoomPreference(15);
     }
 
@@ -250,79 +254,51 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
         return data;
     }
 
-    public void checkPolyLineLocation(Location location) {
-        float[] results = new float[1];
+    public void drawRoutePolyLine(Location location) {
+        this.passedPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
 
-        for(Iterator<Polyline> pl = this.mPolylines.iterator(); pl.hasNext();) {
-            Polyline mPolyLine = pl.next();
-                for(Iterator<LatLng> it = mPolyLine.getPoints().iterator(); it.hasNext();) {
-                    LatLng latLng = it.next();
-                    Location.distanceBetween(location.getLatitude(), location.getLongitude(), latLng.latitude, latLng.longitude, results);
-                    float distanceInMeters = results[0];
-                    if (distanceInMeters < 10) {
-                        Log.d("TESTING POLYLINE LOC", "WORKING AS INTENDED");
-                        Log.d("Current LOC", location.getLatitude() + " :D " + location.getLongitude() + "");
-                        it.remove();
-                    }
-                }
+        PolylineOptions options = new PolylineOptions();
+        options.width(5);
+        options.color(Color.CYAN);
+
+        for (LatLng passedPoint : this.passedPoints) {
+            options.add(passedPoint);
         }
+        this.linesPasser.add(mMap.addPolyline(options));
+
+//        float[] results = new float[1];
+//            for (Iterator<Polyline> pl = this.mPolylines.iterator(); pl.hasNext(); ) {
+//                Polyline mPolyLine = pl.next();
+//                for (Iterator<LatLng> it = mPolyLine.getPoints().iterator(); it.hasNext(); ) {
+//                    LatLng latLng = it.next();
+//                    Location.distanceBetween(location.getLatitude(), location.getLongitude(), latLng.latitude, latLng.longitude, results);
+//                    float distanceInMeters = results[0];
+//                    if (distanceInMeters < 10) {
+//                }
+//            }
+//        }
     }
 
     @Override
     public void onParserResult(List<List<LatLng>> result) {
         PolylineOptions options = new PolylineOptions();
-        List<LatLng> positions = new ArrayList<>();
-
-
-        for (List<LatLng> list : result) {
-            positions.addAll(list);
-        }
 
         northEast = result.get(0).get(0);
         southWest = result.get(0).get(1);
         // The first list contained the bounds of the route and is not part of the route:
         result.remove(0);
-
-        boolean newListRequired_2;
-        for (int i = 0; i < options.getPoints().size(); i++) {
-            options.add(positions.get(i));
-            options.add(positions.get(i + 1));
-            options = new PolylineOptions();
-            this.mPolyLinesOptions.add(options);
-        }
-
         options.width(3);
-        boolean newListRequired_3;
-        for (List<LatLng> list : result) {
-            for (int i = 0; i < list.size(); i++) {
-                newListRequired_2 = i % 2 == 1 && i != 1;
-                newListRequired_3 = i % 3 == 1 && i != 1;
-                if (newListRequired_2) {
-                    options.add(list.get(i));
-                    this.mPolyLinesOptions.add(options);
-                    options = new PolylineOptions();
-                    options.width(3);
+        options.color(Color.GRAY);
 
-                } else if (newListRequired_3) {
-
-                    options.add(list.get(i-1));
-                    options.add(list.get(i));
-                    this.mPolyLinesOptions.add(options);
-                    options = new PolylineOptions();
-                    options.width(3);
-                } else {
-
-                    options.add(list.get(i));
-                }
-            }
+        for (List<LatLng> leg : result) {
+            options.addAll(leg);
         }
-//        currentLastPolyLine;
-        this.requestCount--;
+        this.mPolyLinesOptions.add(options);
 
         Log.d("onPostExecute", "onPostExecute lineoptions decoded");
 
 //             Drawing polyline in the Google Map for the i-th route
-        if (mPolyLinesOptions != null && this.requestCount == 0) {
+        if (mPolyLinesOptions != null) {
 
             for (PolylineOptions mPolyline : mPolyLinesOptions) {
                this.mPolylines.add(mMap.addPolyline(mPolyline));

@@ -19,7 +19,6 @@ import com.example.navi_gator.Models.GPS.IUserNavigatorUpdater;
 import com.example.navi_gator.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -51,6 +50,9 @@ public class RouteManager implements IUserNavigatorUpdater {
     private GPSManager gpsManager;
     private Activity mapActivity;
     private GoogleMap mMap;
+    // GPS constant attributes
+    private final int UPDATE_TIME_INTERVAL = 500;
+    private final int UPDATE_MIN_DISTANCE = 0; // set to 0 to only update when time UPDATE_TIME_INTERVAL has passed
 
     // RouteManager attributes
     private Route route;
@@ -63,7 +65,7 @@ public class RouteManager implements IUserNavigatorUpdater {
 
     private LatLng currentGPSPos;
 
-    // Route progressie
+    // Route progression
     public int nextWaypoint = 1;
     private HashMap<Waypoint, Marker> markers;
 
@@ -232,8 +234,8 @@ public class RouteManager implements IUserNavigatorUpdater {
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000,
-                5, locationListener);
+                UPDATE_TIME_INTERVAL,
+                UPDATE_MIN_DISTANCE, locationListener);
     }
 
     public void setupDirectionsAPI () {
@@ -246,7 +248,7 @@ public class RouteManager implements IUserNavigatorUpdater {
 
             userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
             this.currentGPSPos = new LatLng(location.getLatitude(), location.getLongitude());
-            directionsAPI.checkPolyLineLocation(location);
+            directionsAPI.drawRoutePolyLine(location);
 
         } catch (NullPointerException ex) {
             // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
@@ -266,7 +268,7 @@ public class RouteManager implements IUserNavigatorUpdater {
 
             this.currentGPSPos = new LatLng(location.getLatitude(), location.getLongitude());
 
-            directionsAPI.checkPolyLineLocation(location);
+            directionsAPI.drawRoutePolyLine(location);
 
             //TODO make notification
         }
