@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.example.navi_gator.Models.API.Route;
 import com.example.navi_gator.Models.API.Waypoint;
 import com.example.navi_gator.R;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -39,8 +40,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         db.execSQL(String.format("CREATE TABLE %s (" +
                 "id TEXT," +
+                "number INTEGER," +
                 "description TEXT," +
-                "image TEXT," +
+                "name TEXT," +
                 "lon DOUBLE," +
                 "lat DOUBLE);", Waypoint.TABLE_NAME));
 
@@ -84,12 +86,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
                 if (waypointCursor.moveToFirst()) {
                     waypoints.add(new Waypoint(
-                            cursor.getInt(2) > 0,
-                            cursor.getString(1),
-                            waypointCursor.getString(1),
-                            waypointCursor.getString(2),
-                            waypointCursor.getDouble(3),
-                            waypointCursor.getDouble(4))
+                            cursor.getInt(2) > 0, //Visited
+                            cursor.getString(1),         //Id
+                            waypointCursor.getInt(1), //Number
+                            new LatLng(waypointCursor.getDouble(5), waypointCursor.getDouble(4)),
+                            waypointCursor.getString(3), //name
+                            waypointCursor.getString(2)) //description
                     );
                 }
             }
@@ -144,8 +146,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         cv.put("id", waypoint.getId());
         cv.put("description", waypoint.getDescription());
         cv.put("image", waypoint.getImage());
-        cv.put("lon", waypoint.getLon());
-        cv.put("lat", waypoint.getLat());
+        cv.put("lon", waypoint.getLatlong().longitude);
+        cv.put("lat", waypoint.getLatlong().latitude);
         SQLiteDatabase db = getWritableDatabase();
         db.insert(Waypoint.TABLE_NAME, null, cv);
     }

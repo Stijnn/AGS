@@ -79,6 +79,8 @@ public class RouteReader {
             for (int i = 0; i < routeArray.length(); i++) {
                 JSONObject currentObject = routeArray.getJSONObject(i);
                         waypoints.add(new Waypoint(
+                                false,
+                                currentObject.getString("name"),
                                 currentObject.getInt("number"),
                                 convertGMSCoords(
                                         currentObject.getString("latitude"),
@@ -87,7 +89,7 @@ public class RouteReader {
                                 currentObject.getString("comment")
                         ));
             }
-            route = new Route(waypoints);
+            route = new Route("DEBUG", "DEBUG", "PRE-RELEASE", false, waypoints);
         } catch (JSONException e) {
             e.printStackTrace();
         }

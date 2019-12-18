@@ -20,24 +20,16 @@ public class Waypoint implements Serializable {
     private double lon, lat;
 
     // Current Setup for the RouteManager
-    public Waypoint(int number, LatLng latlong, String name, String comment) {
-            this.number = number;
-            this.latlong = latlong;
-            this.name = name;
-            this.comment = comment;
-            this.visited = false;
-            this.mediaFiles = new ArrayList<>();
-        }
-
-        // Setup for the DatabaseManager
-        public Waypoint(boolean visited, String id, String description, String image, double lon, double lat) {
-            this.visited = visited;
-            this.id = id;
-            this.description = description;
-            this.image = image;
-            this.lon = lon;
-            this.lat = lat;
-        }
+    public Waypoint(boolean visited, String id, int number, LatLng latlong, String name, String comment) {
+        this.number = number;
+        this.latlong = latlong;
+        this.id = id;
+        this.name = name;
+        this.comment = comment;
+        this.description = comment;
+        this.visited = visited;
+        this.mediaFiles = new ArrayList<>();
+    }
 
     public int getNumber() {
         return number;

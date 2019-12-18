@@ -83,7 +83,7 @@ public class RouteManager implements IUserNavigatorUpdater {
             e.printStackTrace();
         }
 
-        this.route = routeReader.getRoute();
+        this.route = new DatabaseManager(context).getRoute("DEBUG");
         createRouteWaypointsOnMap();
 
         gpsManager = new GPSManager(context, this);

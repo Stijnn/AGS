@@ -60,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 //openHelpFragment();
-                openWaypointFragment(new Waypoint(5,new LatLng(200.0,200.0),"kip","ik hou van kip"));
+                //openWaypointFragment(new Waypoint(5,new LatLng(200.0,200.0),"kip","ik hou van kip"));
             }
         });
 
