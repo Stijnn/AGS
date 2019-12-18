@@ -88,7 +88,7 @@ public class GPSManager extends Service {
             public void onLocationChanged(Location location) {
                 if (location != null) {
                     listener.updateUserNavigatorLocation(location);
-                    Toast.makeText(context, "lat: " + location.getLatitude()+ "\nlong: "  + location.getLongitude(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "lat: " + location.getLatitude()+ "\nlong: "  + location.getLongitude(), Toast.LENGTH_SHORT).show();
                 }
             }
 
