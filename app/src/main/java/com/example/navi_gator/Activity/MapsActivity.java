@@ -1,5 +1,7 @@
 package com.example.navi_gator.Activity;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -39,6 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FrameLayout helpLayout;
     private FrameLayout burgerLayout;
     private FrameLayout dummyLayout;
+    private FrameLayout wayPointLayout;
     private RouteManager controller;
 
     @Override
@@ -51,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         helpLayout = findViewById(R.id.help_fragment_container);
         burgerLayout = findViewById(R.id.burger_fragment_container);
         dummyLayout = findViewById(R.id.dummy_container);
+        wayPointLayout = findViewById(R.id.wayPointLayout);
 
         help_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +63,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 openWaypointFragment(new Waypoint(5,new LatLng(200.0,200.0),"kip","ik hou van kip"));
             }
         });
+
+
 
         burger_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.exit_to_bottom, R.anim.enter_from_bottom, R.anim.exit_to_bottom);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.wayPointLayout, fragment, "waypoint_fragment").commit();
+        transaction.replace(R.id.dummy_container, fragment, "waypoint_fragment").commit();
     }
 
 

@@ -33,6 +33,10 @@ public class Waypoint_fragment extends Fragment {
         // Required empty public constructor
     }
 
+    public void setWaypoint(Waypoint waypoint) {
+        this.mwaypoint = waypoint;
+    }
+
     public static Waypoint_fragment newInstance(Waypoint waypoint) {
         Waypoint_fragment fragment = new Waypoint_fragment();
         Bundle args = new Bundle();
