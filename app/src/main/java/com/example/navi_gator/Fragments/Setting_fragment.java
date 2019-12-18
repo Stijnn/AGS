@@ -53,16 +53,16 @@ public class Setting_fragment extends Fragment {
         this.spinner = view.findViewById(R.id.language_spinner);
         this.back_btn = view.findViewById(R.id.setting_back_btn);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.language_array,R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendBack();
             }
         });
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.language_array,R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

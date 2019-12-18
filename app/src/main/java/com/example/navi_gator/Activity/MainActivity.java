@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseManager databaseManager;
     private ImageView ags_logo;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
