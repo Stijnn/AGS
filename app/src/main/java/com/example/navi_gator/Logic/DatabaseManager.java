@@ -66,7 +66,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id == '%s';", Route.TABLE_NAME, route_id), new String[]{});
         if (cursor.moveToFirst())
-            return new Route(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3) > 0);
+        {
+            Route r = new Route(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3) > 0);
+            r.setRouteWaypoints(getWaypoints(r));
+            return r;
+        }
         else
             return null;
     }
