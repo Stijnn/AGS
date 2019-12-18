@@ -13,7 +13,8 @@ public class Route implements Serializable {
     // Current route setup
     private List<Waypoint> routeWaypoints;
 
-    public Route(List<Waypoint> waypoints) {
+    public Route(String id, String name, String description, boolean finished, List<Waypoint> waypoints) {
+        this(id,name,description,finished);
         this.routeWaypoints = waypoints;
     }
 

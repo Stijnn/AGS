@@ -40,7 +40,6 @@ public class RouteReader {
     }
 
     private double convertStringToIntGMS(String gmsCoord, String type) {
-
         float gmsDegrees = Float.parseFloat(gmsCoord.substring(0, gmsCoord.indexOf("°")));
         float gmsMinutes = Float.parseFloat(gmsCoord.substring(gmsCoord.indexOf("°") + 1, gmsCoord.indexOf("’")));
 
@@ -54,7 +53,7 @@ public class RouteReader {
         return new LatLng(convertStringToIntGMS(gmsLat, "Lat"), convertStringToIntGMS(gmsLong, "Long"));
     }
 
-    private String inputStreamToJsonString(InputStream is){
+    private String inputStreamToJsonString(InputStream is) {
         String json = null;
         try {
             int size = is.available();
@@ -79,6 +78,8 @@ public class RouteReader {
             for (int i = 0; i < routeArray.length(); i++) {
                 JSONObject currentObject = routeArray.getJSONObject(i);
                         waypoints.add(new Waypoint(
+                                false,
+                                currentObject.getString("name"),
                                 currentObject.getInt("number"),
                                 convertGMSCoords(
                                         currentObject.getString("latitude"),
@@ -87,7 +88,7 @@ public class RouteReader {
                                 currentObject.getString("comment")
                         ));
             }
-            route = new Route(waypoints);
+            route = new Route("DEBUG", "DEBUG", "PRE-RELEASE", false, waypoints);
         } catch (JSONException e) {
             e.printStackTrace();
         }

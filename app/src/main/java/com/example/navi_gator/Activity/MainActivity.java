@@ -3,6 +3,7 @@ package com.example.navi_gator.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.navi_gator.Logic.DatabaseManager;
+import com.example.navi_gator.Logic.RouteReader;
 import com.example.navi_gator.Models.API.Route;
+import com.example.navi_gator.Models.API.Waypoint;
 import com.example.navi_gator.R;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +34,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         databaseManager = new DatabaseManager(this.getBaseContext());
+
+        SharedPreferences preferences = this.getSharedPreferences("COOKIES", MODE_PRIVATE);
+        if (!preferences.contains("INITIALIZED")) {
+            RouteReader reader = new RouteReader(getResources().openRawResource(R.raw.historischekm));
+            Route routeObject = reader.getRoute();
+            databaseManager.addRoute(routeObject);
+            ArrayList<Waypoint> waypoints = new ArrayList<>(routeObject.getRouteWaypoints());
+            for (int i = 0; i < waypoints.size(); i++) {
+                databaseManager.addWaypoint(waypoints.get(i));
+                databaseManager.addRouteWaypoint(routeObject, waypoints.get(i), false);
+            }
+            preferences.edit().putBoolean("INITIALIZED", true).apply();
+        }
+
+
         ags_logo = findViewById(R.id.ags_logo_display);
         ags_logo.setImageResource(R.drawable.ags_logo);
         initButton();
