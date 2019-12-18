@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -32,7 +33,7 @@ import java.util.Vector;
 
 import static com.example.navi_gator.Models.GPS.GPSManager.PERMISSION_STRING;
 
-public class RouteManager implements IUserNavigatorUpdater {
+public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallback {
 
     /**
      * De route controller laat de gebruiker de route een beetje besturen.
@@ -70,7 +71,6 @@ public class RouteManager implements IUserNavigatorUpdater {
     private HashMap<Waypoint, Marker> markers;
 
     public RouteManager(Context context, Activity mapActivity, GoogleMap mMap, InputStream route) {
-
         this.context = context;
         this.mapActivity = mapActivity;
         this.mMap = mMap;
@@ -239,7 +239,7 @@ public class RouteManager implements IUserNavigatorUpdater {
     }
 
     public void setupDirectionsAPI () {
-        this.directionsAPI = new DirectionsAPI(this.route, this.mMap); // For now left empty
+        this.directionsAPI = new DirectionsAPI(this.route, this.mMap, this); // For now left empty
     }
 
     @Override
@@ -294,5 +294,10 @@ public class RouteManager implements IUserNavigatorUpdater {
             return waypoints.get(0);
         }
         return null;
+    }
+
+    @Override
+    public void onRouteLeave(String status) {
+        Toast.makeText(context, status, Toast.LENGTH_SHORT).show();
     }
 }

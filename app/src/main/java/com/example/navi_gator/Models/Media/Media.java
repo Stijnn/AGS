@@ -4,8 +4,7 @@ public class Media {
 
     private MediaType type;
 
-    public Media(MediaType type){
+    public Media(MediaType type) {
 
     }
-
 }

@@ -40,7 +40,6 @@ public class RouteReader {
     }
 
     private double convertStringToIntGMS(String gmsCoord, String type) {
-
         float gmsDegrees = Float.parseFloat(gmsCoord.substring(0, gmsCoord.indexOf("°")));
         float gmsMinutes = Float.parseFloat(gmsCoord.substring(gmsCoord.indexOf("°") + 1, gmsCoord.indexOf("’")));
 
@@ -54,7 +53,7 @@ public class RouteReader {
         return new LatLng(convertStringToIntGMS(gmsLat, "Lat"), convertStringToIntGMS(gmsLong, "Long"));
     }
 
-    private String inputStreamToJsonString(InputStream is){
+    private String inputStreamToJsonString(InputStream is) {
         String json = null;
         try {
             int size = is.available();
