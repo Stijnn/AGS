@@ -37,6 +37,8 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
     private List<LatLng> passedPoints;
     private List<Polyline> linesPasser;
 
+    private IRouteLeavingCallback routeLeavingCallback;
+
     // Special prefixes used in the directions url formatting
     // These are used when assigning extra waypoints in the format of LatLng
     public final String pipeDividerCodePrefix = "%7C";
@@ -55,7 +57,9 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
 
     private int requestCount;
 
-    public DirectionsAPI(Route route, GoogleMap map) {
+    public DirectionsAPI(Route route, GoogleMap map,IRouteLeavingCallback callback) {
+
+        this.routeLeavingCallback = callback;
 
         if (backUpKeyRequired) {
             this.MY_API_KEY = "b9b76fa5-992f-4271-bdb3-3a5e2ebc0bf3";
@@ -255,6 +259,20 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
     }
 
     public void drawRoutePolyLine(Location location) {
+
+        float[] results = new float[1];
+        for (Iterator<Polyline> pl = this.mPolylines.iterator(); pl.hasNext(); ) {
+            Polyline mPolyLine = pl.next();
+            for (Iterator<LatLng> it = mPolyLine.getPoints().iterator(); it.hasNext(); ) {
+                LatLng latLng = it.next();
+                Location.distanceBetween(location.getLatitude(), location.getLongitude(), latLng.latitude, latLng.longitude, results);
+                float distanceInMeters = results[0];
+                if (distanceInMeters > 50) {
+                    this.routeLeavingCallback.onRouteLeave("You're leaving the route, go back!");
+                }
+            }
+        }
+
         this.passedPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
 
         PolylineOptions options = new PolylineOptions();
@@ -265,18 +283,6 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
             options.add(passedPoint);
         }
         this.linesPasser.add(mMap.addPolyline(options));
-
-//        float[] results = new float[1];
-//            for (Iterator<Polyline> pl = this.mPolylines.iterator(); pl.hasNext(); ) {
-//                Polyline mPolyLine = pl.next();
-//                for (Iterator<LatLng> it = mPolyLine.getPoints().iterator(); it.hasNext(); ) {
-//                    LatLng latLng = it.next();
-//                    Location.distanceBetween(location.getLatitude(), location.getLongitude(), latLng.latitude, latLng.longitude, results);
-//                    float distanceInMeters = results[0];
-//                    if (distanceInMeters < 10) {
-//                }
-//            }
-//        }
     }
 
     @Override
