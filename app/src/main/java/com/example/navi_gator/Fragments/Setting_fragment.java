@@ -39,7 +39,6 @@ public class Setting_fragment extends Fragment {
 
     public static Setting_fragment newInstance() {
         return new Setting_fragment();
-
     }
 
     @Override
@@ -53,7 +52,6 @@ public class Setting_fragment extends Fragment {
         View view = inflater.inflate(R.layout.setting_fragment, container, false);
         this.spinner = view.findViewById(R.id.language_spinner);
         this.back_btn = view.findViewById(R.id.setting_back_btn);
-
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.language_array,R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -69,22 +67,21 @@ public class Setting_fragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                if (pos == 1) {
-
+                if (pos == 2) {
                     Toast.makeText(parent.getContext(),
                             "Sie haben Deutsch gewählt", Toast.LENGTH_LONG)
                             .show();
                     setLocale("de");
-                } else if (pos == 2) {
+                } else if (pos == 3) {
                     Toast.makeText(parent.getContext(),
                             "Je hebt Nederlands geselecteerd", Toast.LENGTH_LONG)
                             .show();
                     setLocale("nl");
-                } else if (pos == 3) {
+                } else if (pos == 1) {
                     Toast.makeText(parent.getContext(),
                             "You have selected English", Toast.LENGTH_LONG)
                             .show();
-                    setLocale("us");
+                    setLocale("en");
                 }
                 spinner.setOnItemSelectedListener(this);
             }
@@ -94,8 +91,6 @@ public class Setting_fragment extends Fragment {
 
             }
         });
-
-
         return view;
     }
 
