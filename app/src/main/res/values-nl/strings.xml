@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_start">Starten</string>
+    <string name="language">Taal</string>
+    <string name="loading_explain">Er loopt een proces op de achtergrond</string>
+    <string name="route_btn">Route</string>
+    <string name="setting_btn_explain">Ga hierheen als u de taal wilt wijzigen</string>
+    <string name="settings">Instellingen</string>
+    <string name="title_activity_maps">Kaart</string>
+    <string name="title_fragment_help">Help</string>
+    <string name="waypoint_details">Details</string>
+    <string name="waypoint_image">Afbeelding</string>
+    <string name="waypoint_title">Titel</string>
+    <string name="waypoints_btn">Waypoints</string>
+</resources>

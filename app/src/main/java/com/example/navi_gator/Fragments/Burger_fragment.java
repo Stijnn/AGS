@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,13 @@ public class Burger_fragment extends Fragment {
         this.back_btn = view.findViewById(R.id.burger_back_btn);
         this.setting_btn = view.findViewById(R.id.setting_btn);
 
+        setting_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSettingFragment();
+            }
+        });
+
         this.back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,5 +81,14 @@ public class Burger_fragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void openSettingFragment(){
+        Setting_fragment fragment = Setting_fragment.newInstance();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.dummy_container,fragment,"setting_fragment").commit();
     }
 }
