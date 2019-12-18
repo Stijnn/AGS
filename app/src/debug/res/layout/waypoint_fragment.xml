@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -10,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/waypoint_title"
+        android:id="@+id/waypoint_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -29,7 +30,7 @@
         android:background="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/waypoint_title" />
+        app:layout_constraintTop_toBottomOf="@id/waypoint_name" />
 
     <ImageView
         android:id="@+id/waypoint_image"
@@ -65,4 +66,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="200dp" />
+
+    <View
+        android:id="@+id/seperate"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 </androidx.constraintlayout.widget.ConstraintLayout>

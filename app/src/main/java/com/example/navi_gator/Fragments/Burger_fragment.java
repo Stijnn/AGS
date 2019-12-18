@@ -13,7 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.navi_gator.Interface.OnFragmentInteractionListener;
+import com.example.navi_gator.Models.API.Route;
+import com.example.navi_gator.Models.API.Waypoint;
 import com.example.navi_gator.R;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 
 public class Burger_fragment extends Fragment {
@@ -21,6 +26,8 @@ public class Burger_fragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Button back_btn;
     private Button setting_btn;
+    private Button allWaypointsview;
+    private Button routeWaypointsview;
 
     public Burger_fragment() {
         // Required empty public constructor
@@ -43,6 +50,24 @@ public class Burger_fragment extends Fragment {
         View view = inflater.inflate(R.layout.burger_fragment, container, false);
         this.back_btn = view.findViewById(R.id.burger_back_btn);
         this.setting_btn = view.findViewById(R.id.setting_btn);
+        this.allWaypointsview = view.findViewById(R.id.waypoints_btn);
+        this.routeWaypointsview = view.findViewById(R.id.route_btn);
+
+        routeWaypointsview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Waypoint> waypoints = new ArrayList<>();
+                waypoints.add(new Waypoint(2,new LatLng(200.0,200.0), "ham", "ik hou van ham"));
+                openRouteWaypointsFragment(new Route(waypoints));
+            }
+        });
+
+        allWaypointsview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAllWaypointsFragment();
+            }
+        });
 
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,12 +108,30 @@ public class Burger_fragment extends Fragment {
         mListener = null;
     }
 
-    public void openSettingFragment(){
+    public void openSettingFragment() {
         Setting_fragment fragment = Setting_fragment.newInstance();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.addToBackStack(null);
-        transaction.replace(R.id.dummy_container,fragment,"setting_fragment").commit();
+        transaction.replace(R.id.dummy_container, fragment, "setting_fragment").commit();
+    }
+
+    public void openAllWaypointsFragment() {
+        All_Waypointsview_fragment fragment = All_Waypointsview_fragment.newInstance();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.help_fragment_container, fragment, "All_Waypointsview_fragment").commit();
+    }
+
+    public void openRouteWaypointsFragment(Route route) {
+        Route_waypointsview_fragment fragment = Route_waypointsview_fragment.newInstance(route);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.help_fragment_container, fragment, "Route_Waypointsview_fragment").commit();
     }
 }

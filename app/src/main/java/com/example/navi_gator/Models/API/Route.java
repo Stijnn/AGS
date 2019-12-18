@@ -1,9 +1,10 @@
 package com.example.navi_gator.Models.API;
+import java.io.Serializable;
 import java.util.List;
 
 import java.util.ArrayList;
 
-public class Route {
+public class Route implements Serializable {
     public static final String TABLE_NAME = "tbl_Routes";
 
     private String id, name, description;
