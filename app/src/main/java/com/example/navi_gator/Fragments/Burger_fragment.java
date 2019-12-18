@@ -57,8 +57,8 @@ public class Burger_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ArrayList<Waypoint> waypoints = new ArrayList<>();
-                waypoints.add(new Waypoint(2,new LatLng(200.0,200.0), "ham", "ik hou van ham"));
-                openRouteWaypointsFragment(new Route(waypoints));
+                waypoints.add(new Waypoint(false,"", 1, new LatLng(200.0, 200.0), "", ""));
+                openRouteWaypointsFragment(new Route("", "" ,"", false, waypoints));
             }
         });
 

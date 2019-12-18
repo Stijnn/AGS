@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             preferences.edit().putBoolean("INITIALIZED", true).apply();
         }
 
-
         ags_logo = findViewById(R.id.ags_logo_display);
         ags_logo.setImageResource(R.drawable.ags_logo);
         initButton();

@@ -88,7 +88,7 @@ public class Route_waypointsview_fragment extends Fragment {
     }
     private void initRecycleviewer(View view, ArrayList<Waypoint> waypoints) {
         RecyclerView recyclerView = view.findViewById(R.id.Rview);
-        waypoints.add(new Waypoint(1, new LatLng(200.0, 200.0), "kip", "ik hou van kip"));
+        waypoints.add(new Waypoint(false,"", 1, new LatLng(200.0, 200.0), "", ""));
         WaypointAdapter adapter = new WaypointAdapter(waypoints, this.getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));

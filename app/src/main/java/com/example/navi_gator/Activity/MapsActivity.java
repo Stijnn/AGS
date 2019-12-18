@@ -35,7 +35,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Op de activity staat de navigationFragment en routeController.
      */
 
-
     private GoogleMap mMap;
     private Button help_btn;
     private Button burger_btn;
@@ -125,7 +124,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -157,18 +155,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Waypoint point = controller.getWaypointInRouteFromLatLngAndNextWaypointInt(marker.getPosition(), controller.nextWaypoint);
 
-                if (point.getNumber() == controller.nextWaypoint) {
+                try {
+                    Waypoint point = controller.getWaypointInRouteFromLatLngAndNextWaypointInt(marker.getPosition(), controller.nextWaypoint);
 
-                    controller.nextWaypoint++;
-                    point.setVisited(true);
+                    if (point.getNumber() == controller.nextWaypoint) {
 
-                    if (point.isVisited()) {
-                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker));
+                        controller.nextWaypoint++;
+                        point.setVisited(true);
+
+                        if (point.isVisited()) {
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker));
+                        }
+
+                        controller.updateNextMarker();
+
+                        return false;
+
                     }
 
-                    controller.updateNextMarker();
+                } catch (NullPointerException ex) {
 
                 }
                 return false;

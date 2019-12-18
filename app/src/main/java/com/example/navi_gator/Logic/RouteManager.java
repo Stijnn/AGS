@@ -63,6 +63,7 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
     // DirectionsAPI
     private List<List<Waypoint>> divideWaypoints;
     private DirectionsAPI directionsAPI;
+    private boolean onRouteCreationSuccess = true;
 
     private LatLng currentGPSPos;
 
@@ -173,32 +174,40 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
     }
 
     private void createRouteWaypointsOnMap() {
-        for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
-            Marker marker;
-            MarkerOptions routeWaypointMarker;
-            if (routeWaypoint.getNumber() == nextWaypoint){
-                routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
-                        .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.next_marker))
-                        .visible(!routeWaypoint.isVisited());
-                marker = this.mMap.addMarker(routeWaypointMarker);
-            } else {
-                if (routeWaypoint.isVisited()) {
+        try {
+
+            for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
+                Marker marker;
+                MarkerOptions routeWaypointMarker;
+                if (routeWaypoint.getNumber() == nextWaypoint){
                     routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
                             .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.next_marker))
                             .visible(!routeWaypoint.isVisited());
                     marker = this.mMap.addMarker(routeWaypointMarker);
                 } else {
-                    routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
-                            .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker))
-                            .visible(!routeWaypoint.isVisited());
-                    marker = this.mMap.addMarker(routeWaypointMarker);
+                    if (routeWaypoint.isVisited()) {
+                        routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
+                                .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker))
+                                .visible(!routeWaypoint.isVisited());
+                        marker = this.mMap.addMarker(routeWaypointMarker);
+                    } else {
+                        routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
+                                .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker))
+                                .visible(!routeWaypoint.isVisited());
+                        marker = this.mMap.addMarker(routeWaypointMarker);
+                    }
                 }
+                this.markers.put(routeWaypoint, marker);
             }
-            this.markers.put(routeWaypoint, marker);
+
+        } catch (NullPointerException ex) {
+            Log.e("CreateRouteWayPoints",ex.getLocalizedMessage() + ": Error Occurred");
+            onRouteCreationSuccess = false;
         }
+
 
     }
 
@@ -239,7 +248,7 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
     }
 
     public void setupDirectionsAPI () {
-        this.directionsAPI = new DirectionsAPI(this.route, this.mMap, this); // For now left empty
+        this.directionsAPI = new DirectionsAPI(this.route, this.mMap, this, onRouteCreationSuccess); // For now left empty
     }
 
     @Override

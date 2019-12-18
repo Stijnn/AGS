@@ -37,6 +37,8 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
     private List<LatLng> passedPoints;
     private List<Polyline> linesPasser;
 
+    private boolean onRouteCreationSuccess;
+
     private IRouteLeavingCallback routeLeavingCallback;
 
     // Special prefixes used in the directions url formatting
@@ -57,8 +59,9 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
 
     private int requestCount;
 
-    public DirectionsAPI(Route route, GoogleMap map,IRouteLeavingCallback callback) {
+    public DirectionsAPI(Route route, GoogleMap map,IRouteLeavingCallback callback, boolean onRouteCreationSuccess) {
 
+        this.onRouteCreationSuccess = onRouteCreationSuccess;
         this.routeLeavingCallback = callback;
 
         if (backUpKeyRequired) {
@@ -66,7 +69,13 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
         }
 
         this.route = route;
-        this.divideWaypoints = divideWaypoints();
+
+        if (onRouteCreationSuccess) {
+            this.divideWaypoints = divideWaypoints();
+        } else {
+            this.divideWaypoints = new ArrayList<>();
+        }
+
         this.mMap = map;
         this.passedPoints = new ArrayList<>();
         this.mPolylines = new ArrayList<>();
@@ -150,14 +159,20 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
 
     public String generateRouteStartURL() {
         String output = "";
-        List<Waypoint> waypoints = this.divideWaypoints.get(0);
-        output = getDirectionsUrl(
-                waypoints.get(0).getLatlong(),
-                waypoints.get(waypoints.size() - 1).getLatlong(),
-                generateExtraWaypointsStringFromList(waypoints));
-        Log.wtf("TESTING GEN ALL URL", "Testing item: String output\n" + output + "\n" +
-                "With the route starting with waypoint number: 1" +
-                ", And ending with: " + waypoints.get(waypoints.size() - 1).getNumber() + "\n" + "---------------------------------------------------------------");
+
+        try {
+            List<Waypoint> waypoints = this.divideWaypoints.get(0);
+            output = getDirectionsUrl(
+                    waypoints.get(0).getLatlong(),
+                    waypoints.get(waypoints.size() - 1).getLatlong(),
+                    generateExtraWaypointsStringFromList(waypoints));
+            Log.wtf("TESTING GEN ALL URL", "Testing item: String output\n" + output + "\n" +
+                    "With the route starting with waypoint number: 1" +
+                    ", And ending with: " + waypoints.get(waypoints.size() - 1).getNumber() + "\n" + "---------------------------------------------------------------");
+
+        } catch (IndexOutOfBoundsException exc) {
+
+        }
         return output;
     }
 

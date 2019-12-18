@@ -29,7 +29,7 @@ public class RouteReader {
 
     private Route route;
 
-    public RouteReader(InputStream is){
+    public RouteReader(InputStream is) {
         try {
             JSONObject json = new JSONObject(Objects.requireNonNull(inputStreamToJsonString(is)));
             this.route = createRouteFromJson(json);
