@@ -1,4 +1,5 @@
 package com.example.navi_gator.Models.API;
+import java.util.List;
 
 import java.util.ArrayList;
 
@@ -8,6 +9,14 @@ public class Route {
     private String id, name, description;
     private boolean finished;
 
+    // Current route setup
+    private List<Waypoint> routeWaypoints;
+
+    public Route(List<Waypoint> waypoints) {
+        this.routeWaypoints = waypoints;
+    }
+
+    // DataBaseManager route setup
     public Route(String id, String name, String description, boolean finished) {
         this.id = id;
         this.name = name;
@@ -46,4 +55,21 @@ public class Route {
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
+
+    public List<Waypoint> getRouteWaypoints() {
+        return routeWaypoints;
+    }
+
+    public void setRouteWaypoints(List<Waypoint> routeWaypoints) {
+        this.routeWaypoints = routeWaypoints;
+    }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "routeWaypoints=" + routeWaypoints +
+                '}';
+    }
 }
+
+

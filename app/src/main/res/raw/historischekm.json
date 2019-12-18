@@ -1,0 +1,319 @@
+{
+  "waypoint": [
+    {
+      "number": 1,
+      "latitude": "51°35.3250’",
+      "longitude": "4°46.5667’",
+      "name": "Stadhuis",
+      "comment": "VVV beginpunt vanaf 2020"
+    },
+    {
+      "number": 2,
+      "latitude": "51°35.2783’",
+      "longitude": "4°46.5817’",
+      "name": "",
+      "comment": "Terug naar begin Grote Markt"
+    },
+    {
+      "number": 3,
+      "latitude": "51°35.2500’",
+      "longitude": "4°46.5933’",
+      "name": "",
+      "comment": "Zuidpunt Grote Markt"
+    },
+    {
+      "number": 4,
+      "latitude": "51°35.2583’",
+      "longitude": "4°46.6350’",
+      "name": "Antonius van Paduakerk",
+      "comment": "St Janstraat"
+    },
+    {
+      "number": 5,
+      "latitude": "51°35.2967’",
+      "longitude": "4°46.7100’",
+      "name": "",
+      "comment": "Kruising St.Janstraat/Molenstraat"
+    },
+    {
+      "number": 6,
+      "latitude": "51°35.2800’",
+      "longitude": "4°46.7367’",
+      "name": "Bibliotheek-nieuwe Veste",
+      "comment": ""
+    },
+    {
+      "number": 7,
+      "latitude": "51°35.2417’",
+      "longitude": "4°46.8133’",
+      "name": "Bibliotheek-nieuwe Veste",
+      "comment": ""
+    },
+    {
+      "number": 8,
+      "latitude": "51°35.2633’",
+      "longitude": "4°46.8617’",
+      "name": "Kloosterkazerne",
+      "comment": "Huidige Casino"
+    },
+    {
+      "number": 9,
+      "latitude": "51°35.2650’",
+      "longitude": "4°46.9200’",
+      "name": "Chasse theater",
+      "comment": ""
+    },
+    {
+      "number": 10,
+      "latitude": "51°35.2650’",
+      "longitude": "4°46.8750’",
+      "name": "",
+      "comment": "Kruising Kloosterplein/Vlaszak"
+    },
+    {
+      "number": 11,
+      "latitude": "51°35.3167’",
+      "longitude": "4°46.8533’",
+      "name": "Binding van Isaac",
+      "comment": "Grasveld Vlaszak"
+    },
+    {
+      "number": 12,
+      "latitude": "51°35.3700’",
+      "longitude": "4°46.8267’",
+      "name": "",
+      "comment": "Kruising Vlaszak/Boschstraat"
+    },
+    {
+      "number": 13,
+      "latitude": "51°35.3800’",
+      "longitude": "4°46.8600’",
+      "name": "Beyerd",
+      "comment": ""
+    },
+    {
+      "number": 14,
+      "latitude": "51°35.3700’",
+      "longitude": "4°46.8267’",
+      "name": "",
+      "comment": "Kruising Vlaszak/Boschstraat"
+    },
+    {
+      "number": 15,
+      "latitude": "51°35.3733’",
+      "longitude": "4°46.8000’",
+      "name": "Gasthuispoort",
+      "comment": ""
+    },
+    {
+      "number": 16,
+      "latitude": "51°35.3650’",
+      "longitude": "4°46.7917’",
+      "name": "",
+      "comment": "Ingang Veemarktstraat"
+    },
+    {
+      "number": 17,
+      "latitude": "51°35.3417’",
+      "longitude": "4°46.7817’",
+      "name": "",
+      "comment": "1e bocht Veemarktstraat"
+    },
+    {
+      "number": 18,
+      "latitude": "51°35.3133’",
+      "longitude": "4°46.7000’",
+      "name": "",
+      "comment": "Kruising Veemarktstraat/St.Annastraat"
+    },
+    {
+      "number": 19,
+      "latitude": "51°35.3467’",
+      "longitude": "4°46.6767’",
+      "name": "Willem Merkxtuin",
+      "comment": "Ingang Willem Merkxtuin"
+    },
+    {
+      "number": 20,
+      "latitude": "51°35.3800’",
+      "longitude": "4°46.6683’",
+      "name": "",
+      "comment": "Kruising St.Annastraat/Catharinastraat"
+    },
+    {
+      "number": 21,
+      "latitude": "51°35.3817’",
+      "longitude": "4°46.7017’",
+      "name": "Begijnenhof",
+      "comment": "Ingang Begijnenhof"
+    },
+    {
+      "number": 22,
+      "latitude": "51°35.3800’",
+      "longitude": "4°46.6683’",
+      "name": "",
+      "comment": "Kruising St.Annastraat/Catharinastraat"
+    },
+    {
+      "number": 23,
+      "latitude": "51°35.3700’",
+      "longitude": "4°46.5750’",
+      "name": "",
+      "comment": "Eindpunt tot maart 2019’"
+    },
+	{
+      "number": 24,
+      "latitude": "51°35.6467’",
+      "longitude": "4°46.7650’",
+      "name": "VVV",
+      "comment": "Beginpunt t/m maart 2019"
+    },
+	{
+      "number": 25,
+      "latitude": "51°35.5967’",
+      "longitude": "4°46.7633’",
+      "name": "Liefdeszuster",
+      "comment": ""
+    },
+    {
+      "number": 26,
+      "latitude": "51°35.5500’",
+      "longitude": "4°46.7817’",
+      "name": "Nassau Baronie Monument",
+      "comment": ""
+    },
+    {
+      "number": 27,
+      "latitude": "51°35.5500’",
+      "longitude": "4°46.7633’",
+      "name": "",
+      "comment": "Pad ten westen van monument"
+    },
+    {
+      "number": 28,
+      "latitude": "51°35.5700’",
+      "longitude": "4°46.7083’",
+      "name": "The Light House",
+      "comment": ""
+    },
+    {
+      "number": 29,
+      "latitude": "51°35.5600’",
+      "longitude": "4°46.6750’",
+      "name": "",
+      "comment": ""
+    },
+    {
+      "number": 30,
+      "latitude": "51°35.4367’",
+      "longitude": "4°46.6200’",
+      "name": "",
+      "comment": "Einde park"
+    },
+    {
+      "number": 31,
+      "latitude": "51°35.4367’",
+      "longitude": "4°46.5700’",
+      "name": "Kasteel van Breda",
+      "comment": "Kasteelplein"
+    },
+    {
+      "number": 32,
+      "latitude": "51°35.3817’",
+      "longitude": "4°46.5683’",
+      "name": "Stadhouderspoort",
+      "comment": ""
+    },
+    {
+      "number": 33,
+      "latitude": "51°35.4200’",
+      "longitude": "4°46.5600’",
+      "name": "",
+      "comment": "Kruising Kasteelplein/Cingelstraat"
+    },
+    {
+      "number": 34,
+      "latitude": "51°35.4233’",
+      "longitude": "4°46.5000’",
+      "name": "",
+      "comment": "Bocht Cingelstraat"
+    },
+    {
+      "number": 35,
+      "latitude": "51°35.4017’",
+      "longitude": "4°46.4617’",
+      "name": "Huis van Brecht (rechter zijde)",
+      "comment": ""
+    },
+    {
+      "number": 36,
+      "latitude": "51°35.4117’",
+      "longitude": "4°46.4067’",
+      "name": "Spanjaardsgat (rechter zijde)",
+      "comment": ""
+    },
+    {
+      "number": 37,
+      "latitude": "51°35.3900’",
+      "longitude": "4°46.4000’",
+      "name": "Begin Vismarkt",
+      "comment": ""
+    },
+    {
+      "number": 38,
+      "latitude": "51°35.3617’",
+      "longitude": "4°46.4667’",
+      "name": "Begin Havermarkt",
+      "comment": ""
+    },
+    {
+      "number": 39,
+      "latitude": "51°35.3267’",
+      "longitude": "4°46.4933’",
+      "name": "",
+      "comment": "Kruising Torenstraat/Kerkplein"
+    },
+    {
+      "number": 40,
+      "latitude": "51°35.3300’",
+      "longitude": "4°46.5167’",
+      "name": "Grote Kerk",
+      "comment": ""
+    },
+    {
+      "number": 41,
+      "latitude": "51°35.3267’",
+      "longitude": "4°46.4933’",
+      "name": "",
+      "comment": "Kruising Torenstraat/Kerkplein"
+    },
+    {
+      "number": 42,
+      "latitude": "51°35.2917’",
+      "longitude": "4°46.5083’",
+      "name": "Het Poortje",
+      "comment": ""
+    },
+    {
+      "number": 43,
+      "latitude": "51°35.2250’",
+      "longitude": "4°46.5450’",
+      "name": "Ridderstraat",
+      "comment": ""
+    },
+    {
+      "number": 44,
+      "latitude": "51°35.2450’",
+      "longitude": "4°46.5933’",
+      "name": "Grote Markt",
+      "comment": "Zuidpunt Grote Markt"
+    },
+    {
+      "number": 45,
+      "latitude": "51°35.2817’",
+      "longitude": "4°46.5800’",
+      "name": "Bevrijdingsmonument",
+      "comment": ""
+    }
+  ]
+}

@@ -1,26 +1,73 @@
 package com.example.navi_gator.Models.API;
 
-import android.icu.text.Transliterator;
-import android.location.Location;
-
+import com.example.navi_gator.Models.Media.Media;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Waypoint implements Serializable {
-    public static final String TABLE_NAME = "tbl_Waypoints";
-
+public class Waypoint {
+    private int number;
+    private LatLng latlong;
+    private String name;
+    private String comment;
     private boolean visited;
+    private ArrayList<Media> mediaFiles;
+
+    public static final String TABLE_NAME = "tbl_Waypoints";
     private String id, description, image;
+
     private double lon, lat;
 
-    public Waypoint(boolean visited, String id, String description, String image, double lon, double lat) {
+    // Current Setup for the RouteManager
+    public Waypoint(int number, LatLng latlong, String name, String comment) {
+        this.number = number;
+        this.latlong = latlong;
+        this.name = name;
+        this.comment = comment;
+        this.visited = false;
+        this.mediaFiles = new ArrayList<>();
+    }
+
+    // Setup for the DatabaseManager
+    public Waypoint(boolean visited, String id, String description, String image) {
         this.visited = visited;
         this.id = id;
         this.description = description;
         this.image = image;
-        this.lon = lon;
-        this.lat = lat;
+        this.lon = getLatlong().latitude;
+        this.lat = getLatlong().longitude;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public LatLng getLatlong() {
+        return latlong;
+    }
+
+    public void setLatlong(LatLng latlong) {
+        this.latlong = latlong;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public boolean isVisited() {
@@ -31,39 +78,21 @@ public class Waypoint implements Serializable {
         this.visited = visited;
     }
 
-    public String getId() {
-        return id;
+    public void addMediaFile(Media media){
+        this.mediaFiles.add(media);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public ArrayList<Media> getMediaFiles(){
+        return this.mediaFiles;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public double getLon() {
-        return lon;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public LatLng getPosition(){
-        return new LatLng(this.lat,this.lon);
+    @Override
+    public String toString() {
+        return "Waypoint{" +
+                "number=" + number +
+                ", latlong=" + latlong +
+                ", name='" + name + '\'' +
+                ", comment='" + comment + '\'' +
+                '}';
     }
 }
