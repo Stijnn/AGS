@@ -3,6 +3,7 @@
     <string name="app_name" translatable="false">Navi-Gator</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_fragment_help">Help</string>
+    <string name="title_fragment_setting">Settings</string>
     <string name="button_start">Start</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="settings">Settings</string>

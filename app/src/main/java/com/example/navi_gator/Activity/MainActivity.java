@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.navi_gator.Logic.DatabaseManager;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private DatabaseManager databaseManager;
+    private ImageView ags_logo;
 
 
     @Override
@@ -28,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         databaseManager = new DatabaseManager(this.getBaseContext());
-
+        ags_logo = findViewById(R.id.ags_logo_display);
+        ags_logo.setImageResource(R.drawable.ags_logo);
         initButton();
         animateText();
     }

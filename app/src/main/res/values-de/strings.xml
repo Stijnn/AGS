@@ -5,11 +5,12 @@
     <string name="loading_explain">m Hintergrund wird ein Prozess ausgeführt</string>
     <string name="route_btn">Routen</string>
     <string name="setting_btn_explain">Gehen Sie hier, wenn Sie die Sprache ändern möchten</string>
-    <string name="settings">die Einstellungen</string>
+    <string name="settings">Einstellungen</string>
     <string name="title_activity_maps">Karte</string>
     <string name="title_fragment_help">Hilfe</string>
     <string name="waypoint_details">Einzelheiten</string>
     <string name="waypoint_image">Bild</string>
     <string name="waypoint_title">Titel</string>
     <string name="waypoints_btn">Wegpunkte</string>
+    <string name="title_fragment_setting">Einstellungen</string>
 </resources>

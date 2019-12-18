@@ -54,6 +54,7 @@ public class Setting_fragment extends Fragment {
         this.spinner = view.findViewById(R.id.language_spinner);
         this.back_btn = view.findViewById(R.id.setting_back_btn);
 
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.language_array,R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -71,20 +72,21 @@ public class Setting_fragment extends Fragment {
                 if (pos == 1) {
 
                     Toast.makeText(parent.getContext(),
-                            "Sie haben Deutsch gewählt", Toast.LENGTH_SHORT)
+                            "Sie haben Deutsch gewählt", Toast.LENGTH_LONG)
                             .show();
                     setLocale("de");
                 } else if (pos == 2) {
                     Toast.makeText(parent.getContext(),
-                            "Je hebt Nederlands geselecteerd", Toast.LENGTH_SHORT)
+                            "Je hebt Nederlands geselecteerd", Toast.LENGTH_LONG)
                             .show();
                     setLocale("nl");
                 } else if (pos == 3) {
                     Toast.makeText(parent.getContext(),
-                            "You have selected English", Toast.LENGTH_SHORT)
+                            "You have selected English", Toast.LENGTH_LONG)
                             .show();
                     setLocale("us");
                 }
+                spinner.setOnItemSelectedListener(this);
             }
 
             @Override

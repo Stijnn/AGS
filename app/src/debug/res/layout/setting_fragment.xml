@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="@string/title_fragment_help"
+        android:text="@string/title_fragment_setting"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/line2"
         app:layout_constraintStart_toEndOf="@+id/setting_back_btn"
