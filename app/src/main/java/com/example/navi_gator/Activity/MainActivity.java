@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         databaseManager = new DatabaseManager(this.getBaseContext());
 
         SharedPreferences preferences = this.getSharedPreferences("COOKIES", MODE_PRIVATE);
-        if (!preferences.contains("INITIALIZED")) {
+        if (!preferences.contains("INITIALIZED")) { // !preferences.contains("INITIALIZED")
             RouteReader reader = new RouteReader(getResources().openRawResource(R.raw.historischekm));
             Route routeObject = reader.getRoute();
             databaseManager.addRoute(routeObject);

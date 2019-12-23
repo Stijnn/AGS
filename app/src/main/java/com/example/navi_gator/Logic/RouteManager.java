@@ -85,7 +85,6 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
         }
 
         this.route = new DatabaseManager(context).getRoute("DEBUG");
-        createRouteWaypointsOnMap();
 
         gpsManager = new GPSManager(context, this);
 
@@ -173,32 +172,25 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
         return waypointListDivided;
     }
 
-    private void createRouteWaypointsOnMap() {
+    private void initializeRouteWaypoints() {
         try {
-
             for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
                 Marker marker;
                 MarkerOptions routeWaypointMarker;
-                if (routeWaypoint.getNumber() == nextWaypoint){
+
+                if (routeWaypoint.getNumber() == nextWaypoint) {
                     routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
                             .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.next_marker))
                             .visible(!routeWaypoint.isVisited());
                     marker = this.mMap.addMarker(routeWaypointMarker);
+
                 } else {
-                    if (routeWaypoint.isVisited()) {
-                        routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
-                                .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker))
-                                .visible(!routeWaypoint.isVisited());
-                        marker = this.mMap.addMarker(routeWaypointMarker);
-                    } else {
-                        routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
-                                .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker))
-                                .visible(!routeWaypoint.isVisited());
-                        marker = this.mMap.addMarker(routeWaypointMarker);
-                    }
+                    routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
+                            .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.waypoint_marker))
+                            .visible(!routeWaypoint.isVisited());
+                    marker = this.mMap.addMarker(routeWaypointMarker);
                 }
                 this.markers.put(routeWaypoint, marker);
             }
@@ -207,13 +199,10 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
             Log.e("CreateRouteWayPoints",ex.getLocalizedMessage() + ": Error Occurred");
             onRouteCreationSuccess = false;
         }
-
-
     }
 
-    public void updateNextMarker(){
+    public void updateNextMarker() {
         Waypoint nextWaypoint = getNextWaypoint();
-
         if (nextWaypoint != null) markers.get(nextWaypoint).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.next_marker));
     }
 
@@ -258,6 +247,7 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
             userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
             this.currentGPSPos = new LatLng(location.getLatitude(), location.getLongitude());
             directionsAPI.drawRoutePolyLine(location);
+//            initializeRouteWaypoints();
 
         } catch (NullPointerException ex) {
             // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
@@ -265,7 +255,7 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
 
             mMap.clear();
             this.directionsAPI.drawPolyLinesOnMap();
-            createRouteWaypointsOnMap();
+            initializeRouteWaypoints();
 
             // creates the userNavigator marker, to show the current position on the map.
             MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))

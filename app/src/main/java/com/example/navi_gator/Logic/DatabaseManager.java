@@ -49,6 +49,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(String.format("CREATE TABLE %s (" +
                 "route_id TEXT," +
                 "waypoint_id TEXT," +
+                "id_number INTEGER," +
                 "visited INTEGER);", "tbl_RouteWaypoints"));
     }
 
@@ -84,20 +85,22 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE route_id == '%s';", "tbl_RouteWaypoints", route.getId()), new String[]{});
         ArrayList<Waypoint> waypoints = new ArrayList<>();
-        ArrayList<String> waypoint_ids = new ArrayList<>();
+        ArrayList<Integer> waypoint_number = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                waypoint_ids.add(cursor.getString(1));
+                waypoint_number.add(cursor.getInt(2));
             }
             while (cursor.moveToNext());
         }
-        cursor.close();
+        for (int i = 0; i < waypoint_number.size(); i++) {
+            Cursor waypointCursor = db.rawQuery(String.format("SELECT * FROM %s WHERE number == '%s';", Waypoint.TABLE_NAME, waypoint_number.get(i)), new String[]{});
 
-        for (int i = 0; i < waypoint_ids.size(); i++) {
-            Cursor waypointCursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id == '%s';", Waypoint.TABLE_NAME, waypoint_ids.get(i)), new String[]{});
-            if (waypointCursor.moveToFirst()) {
+            if (waypointCursor.moveToFirst() && cursor.moveToFirst()) {
+                int rawVisited = cursor.getInt(2);
+                boolean visited = rawVisited == 0;
+
                 waypoints.add(new Waypoint(
-                        cursor.getInt(2) > 0, //Visited
+                        visited, //Visited
                         cursor.getString(1),         //Id
                         waypointCursor.getInt(1), //Number
                         new LatLng(waypointCursor.getDouble(5), waypointCursor.getDouble(4)),
@@ -107,7 +110,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             }
             waypointCursor.close();
         }
-
+        cursor.close();
         return waypoints;
     }
 
@@ -155,8 +158,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void addWaypoint(Waypoint waypoint) {
         ContentValues cv = new ContentValues();
         cv.put("id", waypoint.getId());
+        cv.put("number", waypoint.getNumber());
         cv.put("description", waypoint.getDescription());
-        cv.put("image", waypoint.getImage());
+        cv.put("name", waypoint.getName());
         cv.put("lon", waypoint.getLatlong().longitude);
         cv.put("lat", waypoint.getLatlong().latitude);
         SQLiteDatabase db = getWritableDatabase();
@@ -173,6 +177,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put("route_id", route.getId());
         cv.put("waypoint_id", waypoint.getId());
+        cv.put("id_number", waypoint.getNumber());
         cv.put("visited", visited);
         SQLiteDatabase db = getWritableDatabase();
         db.insert("tbl_RouteWaypoints", null, cv);

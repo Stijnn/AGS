@@ -155,7 +155,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-
                 try {
                     Waypoint point = controller.getWaypointInRouteFromLatLngAndNextWaypointInt(marker.getPosition(), controller.nextWaypoint);
 
@@ -167,7 +166,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (point.isVisited()) {
                             marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker));
                         }
-
                         controller.updateNextMarker();
 
                         return false;

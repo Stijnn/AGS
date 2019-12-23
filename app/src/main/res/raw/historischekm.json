@@ -11,15 +11,15 @@
       "number": 2,
       "latitude": "51°35.2783’",
       "longitude": "4°46.5817’",
-      "name": "",
-      "comment": "Terug naar begin Grote Markt"
+      "name": "Route begeleiding",
+      "comment": "Naar begin Grote Markt"
     },
     {
       "number": 3,
-      "latitude": "51°35.2500’",
+      "latitude": "51°35.2600’",
       "longitude": "4°46.5933’",
-      "name": "",
-      "comment": "Zuidpunt Grote Markt"
+      "name": "Route begeleiding",
+      "comment": "Zuidpunt Grote Markt Start"
     },
     {
       "number": 4,
@@ -32,7 +32,7 @@
       "number": 5,
       "latitude": "51°35.2967’",
       "longitude": "4°46.7100’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Kruising St.Janstraat/Molenstraat"
     },
     {
@@ -46,8 +46,8 @@
       "number": 7,
       "latitude": "51°35.2417’",
       "longitude": "4°46.8133’",
-      "name": "Bibliotheek-nieuwe Veste",
-      "comment": ""
+      "name": "Route begeleiding",
+      "comment": "Kruising Molenstraat/Kloosterplein"
     },
     {
       "number": 8,
@@ -67,7 +67,7 @@
       "number": 10,
       "latitude": "51°35.2650’",
       "longitude": "4°46.8750’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Kruising Kloosterplein/Vlaszak"
     },
     {
@@ -81,7 +81,7 @@
       "number": 12,
       "latitude": "51°35.3700’",
       "longitude": "4°46.8267’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Kruising Vlaszak/Boschstraat"
     },
     {
@@ -93,227 +93,198 @@
     },
     {
       "number": 14,
-      "latitude": "51°35.3700’",
-      "longitude": "4°46.8267’",
-      "name": "",
-      "comment": "Kruising Vlaszak/Boschstraat"
-    },
-    {
-      "number": 15,
       "latitude": "51°35.3733’",
       "longitude": "4°46.8000’",
       "name": "Gasthuispoort",
       "comment": ""
     },
     {
-      "number": 16,
+      "number": 15,
       "latitude": "51°35.3650’",
       "longitude": "4°46.7917’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Ingang Veemarktstraat"
     },
     {
-      "number": 17,
+      "number": 16,
       "latitude": "51°35.3417’",
       "longitude": "4°46.7817’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "1e bocht Veemarktstraat"
     },
     {
-      "number": 18,
+      "number": 17,
       "latitude": "51°35.3133’",
       "longitude": "4°46.7000’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Kruising Veemarktstraat/St.Annastraat"
     },
     {
-      "number": 19,
+      "number": 18,
       "latitude": "51°35.3467’",
       "longitude": "4°46.6767’",
       "name": "Willem Merkxtuin",
       "comment": "Ingang Willem Merkxtuin"
     },
     {
-      "number": 20,
+      "number": 19,
       "latitude": "51°35.3800’",
       "longitude": "4°46.6683’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Kruising St.Annastraat/Catharinastraat"
     },
     {
-      "number": 21,
+      "number": 20,
       "latitude": "51°35.3817’",
       "longitude": "4°46.7017’",
       "name": "Begijnenhof",
       "comment": "Ingang Begijnenhof"
     },
     {
-      "number": 22,
-      "latitude": "51°35.3800’",
-      "longitude": "4°46.6683’",
-      "name": "",
-      "comment": "Kruising St.Annastraat/Catharinastraat"
-    },
-    {
-      "number": 23,
+      "number": 21,
       "latitude": "51°35.3700’",
       "longitude": "4°46.5750’",
-      "name": "",
-      "comment": "Eindpunt tot maart 2019’"
-    },
-	{
-      "number": 24,
-      "latitude": "51°35.6467’",
-      "longitude": "4°46.7650’",
-      "name": "VVV",
-      "comment": "Beginpunt t/m maart 2019"
-    },
-	{
-      "number": 25,
-      "latitude": "51°35.5967’",
-      "longitude": "4°46.7633’",
-      "name": "Liefdeszuster",
+      "name": "Route begeleiding",
       "comment": ""
     },
     {
-      "number": 26,
+      "number": 22,
       "latitude": "51°35.5500’",
       "longitude": "4°46.7817’",
       "name": "Nassau Baronie Monument",
       "comment": ""
     },
     {
-      "number": 27,
+      "number": 23,
       "latitude": "51°35.5500’",
       "longitude": "4°46.7633’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Pad ten westen van monument"
     },
     {
-      "number": 28,
+      "number": 24,
       "latitude": "51°35.5700’",
       "longitude": "4°46.7083’",
       "name": "The Light House",
       "comment": ""
     },
     {
-      "number": 29,
+      "number": 25,
       "latitude": "51°35.5600’",
       "longitude": "4°46.6750’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": ""
-    },
-    {
-      "number": 30,
+    },    {
+      "number": 26,
       "latitude": "51°35.4367’",
       "longitude": "4°46.6200’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Einde park"
     },
     {
-      "number": 31,
+      "number": 27,
       "latitude": "51°35.4367’",
       "longitude": "4°46.5700’",
       "name": "Kasteel van Breda",
       "comment": "Kasteelplein"
     },
     {
-      "number": 32,
+      "number": 28,
       "latitude": "51°35.3817’",
       "longitude": "4°46.5683’",
       "name": "Stadhouderspoort",
       "comment": ""
     },
     {
-      "number": 33,
+      "number": 29,
       "latitude": "51°35.4200’",
       "longitude": "4°46.5600’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Kruising Kasteelplein/Cingelstraat"
     },
     {
-      "number": 34,
+      "number": 30,
       "latitude": "51°35.4233’",
       "longitude": "4°46.5000’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Bocht Cingelstraat"
     },
     {
-      "number": 35,
+      "number": 31,
       "latitude": "51°35.4017’",
       "longitude": "4°46.4617’",
       "name": "Huis van Brecht (rechter zijde)",
       "comment": ""
     },
     {
-      "number": 36,
+      "number": 32,
       "latitude": "51°35.4117’",
       "longitude": "4°46.4067’",
       "name": "Spanjaardsgat (rechter zijde)",
       "comment": ""
     },
     {
-      "number": 37,
+      "number": 33,
       "latitude": "51°35.3900’",
       "longitude": "4°46.4000’",
       "name": "Begin Vismarkt",
       "comment": ""
     },
     {
-      "number": 38,
+      "number": 34,
       "latitude": "51°35.3617’",
       "longitude": "4°46.4667’",
       "name": "Begin Havermarkt",
       "comment": ""
     },
     {
-      "number": 39,
-      "latitude": "51°35.3267’",
-      "longitude": "4°46.4933’",
-      "name": "",
-      "comment": "Kruising Torenstraat/Kerkplein"
-    },
-    {
-      "number": 40,
+      "number": 35,
       "latitude": "51°35.3300’",
       "longitude": "4°46.5167’",
       "name": "Grote Kerk",
       "comment": ""
     },
     {
-      "number": 41,
+      "number": 36,
       "latitude": "51°35.3267’",
       "longitude": "4°46.4933’",
-      "name": "",
+      "name": "Route begeleiding",
       "comment": "Kruising Torenstraat/Kerkplein"
     },
     {
-      "number": 42,
+      "number": 37,
       "latitude": "51°35.2917’",
       "longitude": "4°46.5083’",
       "name": "Het Poortje",
       "comment": ""
     },
     {
-      "number": 43,
+      "number": 38,
       "latitude": "51°35.2250’",
       "longitude": "4°46.5450’",
       "name": "Ridderstraat",
       "comment": ""
     },
     {
-      "number": 44,
+      "number": 39,
       "latitude": "51°35.2450’",
       "longitude": "4°46.5933’",
       "name": "Grote Markt",
-      "comment": "Zuidpunt Grote Markt"
+      "comment": "Zuidpunt Grote Markt Einde"
     },
     {
-      "number": 45,
+      "number": 40,
       "latitude": "51°35.2817’",
       "longitude": "4°46.5800’",
       "name": "Bevrijdingsmonument",
       "comment": ""
+    },
+    {
+      "number": 41,
+      "latitude": "51°35.3220’",
+      "longitude": "4°46.5697’",
+      "name": "Stadhuis",
+      "comment": "Einde Route VVV"
     }
   ]
 }

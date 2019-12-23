@@ -48,7 +48,7 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
 
     private List<List<Waypoint>> divideWaypoints;
 
-    private final boolean backUpKeyRequired = true;
+    private final boolean backUpKeyRequired = false;
 
     private LatLng northEast;
     private LatLng southWest;
@@ -282,8 +282,8 @@ public class DirectionsAPI implements IDirectionsAPIHelper {
                 LatLng latLng = it.next();
                 Location.distanceBetween(location.getLatitude(), location.getLongitude(), latLng.latitude, latLng.longitude, results);
                 float distanceInMeters = results[0];
-                if (distanceInMeters > 50) {
-                    this.routeLeavingCallback.onRouteLeave("You're leaving the route, go back!");
+                if (distanceInMeters < 50) {
+//                    this.routeLeavingCallback.onRouteLeave("You're leaving the route, go back!");
                 }
             }
         }

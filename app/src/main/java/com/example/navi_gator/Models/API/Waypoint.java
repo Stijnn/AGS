@@ -12,7 +12,6 @@ public class Waypoint implements Serializable {
     private String name;
     private String comment;
     private boolean visited;
-    private ArrayList<Media> mediaFiles;
 
     public static final String TABLE_NAME = "tbl_Waypoints";
     private String id, description, image;
@@ -28,7 +27,6 @@ public class Waypoint implements Serializable {
         this.comment = comment;
         this.description = comment;
         this.visited = visited;
-        this.mediaFiles = new ArrayList<>();
     }
 
     public int getNumber() {
@@ -71,14 +69,6 @@ public class Waypoint implements Serializable {
         this.visited = visited;
     }
 
-    public ArrayList<Media> getMediaFiles() {
-        return mediaFiles;
-    }
-
-    public void setMediaFiles(ArrayList<Media> mediaFiles) {
-        this.mediaFiles = mediaFiles;
-    }
-
     public String getId() {
         return id;
     }
@@ -93,14 +83,6 @@ public class Waypoint implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public double getLon() {
