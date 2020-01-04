@@ -4,7 +4,7 @@
       "number": 1,
       "latitude": "51°35.3250’",
       "longitude": "4°46.5667’",
-      "name": "Stadhuis",
+      "name": "Stadhuis - Start",
       "comment": "VVV beginpunt vanaf 2020"
     },
     {
@@ -283,7 +283,7 @@
       "number": 41,
       "latitude": "51°35.3220’",
       "longitude": "4°46.5697’",
-      "name": "Stadhuis",
+      "name": "Stadhuis - Terug",
       "comment": "Einde Route VVV"
     }
   ]
