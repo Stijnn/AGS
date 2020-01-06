@@ -17,4 +17,8 @@
     <string name="loading_explain">There is a process running in the background</string>
     <string name="language">Language</string>
     <string name="nodetails">No Details</string>
+    <string name="user_navi_icon_explain">This is the user navigator icon, it is used to see the current position</string>
+    <string name="marker_visited_explaination">This is the marker icon of the visited marker, it happens when the user ticks on the marker</string>
+    <string name="marker_next_explanation">This is the marker icon of the next marker on the route, it happens when the user ticks on a marker</string>
+    <string name="marker_route_explanation">This is the marker icon of the route, which shows the route layout and direction, it can be ticked to show a small amount of information about the marker</string>
 </resources>

@@ -2,7 +2,7 @@
 <resources>
     <string name="button_start">Starten</string>
     <string name="language">sprache</string>
-    <string name="loading_explain">m Hintergrund wird ein Prozess ausgeführt</string>
+    <string name="loading_explain">Im Hintergrund wird ein Prozess ausgeführt</string>
     <string name="route_btn">Routen</string>
     <string name="setting_btn_explain">Gehen Sie hier, wenn Sie die Sprache ändern möchten</string>
     <string name="settings">Einstellungen</string>
@@ -14,4 +14,8 @@
     <string name="waypoints">Wegpunkte</string>
     <string name="title_fragment_setting">Einstellungen</string>
     <string name="nodetails">keine details</string>
+    <string name="user_navi_icon_explain">Dies ist das Symbol für die Benutzernavigation. Das Symbol zeigt die aktuelle Position an</string>
+    <string name="marker_visited_explaination">Dies ist das Markierungssymbol, das für die Ersteller verwendet wird, die der Benutzer besucht hat. Dieses Symbol wird angezeigt, wenn die Markierung darauf getippt wird</string>
+    <string name="marker_next_explanation">Dies ist das Markierungssymbol, das für die nächste Markierung verwendet wird. Dieses Symbol wird angezeigt, wenn Sie auf die Markierung tippen</string>
+    <string name="marker_route_explanation">Dies ist das Markierungssymbol, das für eine Routenmarkierung verwendet wird. Dieses Symbol gilt für alle anderen Markierungen, die auf der Route angezeigt werden. Wenn Sie auf diese Markierungen tippen, wird eine kleine Übersicht über die Markierung angezeigt</string>
 </resources>

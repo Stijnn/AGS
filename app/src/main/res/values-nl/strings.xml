@@ -14,4 +14,8 @@
     <string name="waypoints">Waypoints</string>
     <string name="title_fragment_setting">Instellingen</string>
     <string name="nodetails">Geen Details</string>
+    <string name="user_navi_icon_explain">Dit is het icoon voor de gebruiker navigatie, het icoon toont de huidige positie</string>
+    <string name="marker_visited_explaination">Dit is het marker icoon dat gebruikt wordt voor de makers die de gebruiker heeft bezocht, dit icoon wordt getoont wanneer de er op de marker getikt is</string>
+    <string name="marker_next_explanation">Dit is het marker icoon dat gebruikt wordt voor de volgende marker, dit icoon wordt getoont wanneer de er op de marker getikt is</string>
+    <string name="marker_route_explanation">Dit is het marker icoon dat gebruikt wordt voor een route marker, dit icoon is voor alle andere markers die op de route te zien zijn, door op deze markers te tikken kan er een klein overzicht bekeken worden van de marker</string>
 </resources>

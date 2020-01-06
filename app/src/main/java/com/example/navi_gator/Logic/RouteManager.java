@@ -259,7 +259,6 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
 
             // creates the userNavigator marker, to show the current position on the map.
             MarkerOptions position = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .title("UserNavigator")
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_navigator_marker));
             userNavigator = mMap.addMarker(position);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));

@@ -88,4 +88,90 @@
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imgViewUserNavigator"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:foreground="@drawable/user_navigator_marker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loading_explain" />
+
+    <TextView
+        android:id="@+id/lblUserNavigator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/user_navi_icon_explain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/imgViewUserNavigator" />
+
+    <!--    Flag Visited XML    -->
+
+    <ImageView
+        android:id="@+id/imgViewFlagMarkerVisited"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:foreground="@drawable/checked_marker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgViewUserNavigator" />
+
+    <TextView
+        android:id="@+id/lblFlagMarkerVisited"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/marker_visited_explaination"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/lblUserNavigator"
+        app:layout_constraintTop_toTopOf="@+id/imgViewFlagMarkerVisited" />
+
+    <!--    Flag Next XML   -->
+
+    <ImageView
+        android:id="@+id/imgViewFlagMarkerNext"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:foreground="@drawable/next_marker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgViewFlagMarkerVisited" />
+
+    <TextView
+        android:id="@+id/lblFlagMarkerNext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/marker_next_explanation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/lblFlagMarkerVisited"
+        app:layout_constraintTop_toTopOf="@+id/imgViewFlagMarkerNext" />
+
+    <!--    Flag Route XML  -->
+
+    <ImageView
+        android:id="@+id/imgViewFlagMarkerRoute"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:foreground="@drawable/waypoint_marker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgViewFlagMarkerNext" />
+
+    <TextView
+        android:id="@+id/lblFlagMarkerRoute"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/marker_route_explanation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/lblFlagMarkerNext"
+        app:layout_constraintTop_toTopOf="@+id/imgViewFlagMarkerRoute" />
 </androidx.constraintlayout.widget.ConstraintLayout>

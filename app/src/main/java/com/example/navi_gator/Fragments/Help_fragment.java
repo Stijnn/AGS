@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.navi_gator.Interface.OnFragmentInteractionListener;
@@ -18,6 +19,16 @@ public class Help_fragment extends Fragment {
 
     private Button back_btn;
     private TextView loading;
+    private TextView userNaviText;
+    private TextView markerVisitedText;
+    private TextView markerNextText;
+    private TextView markerRouteText;
+
+    private ImageView userNaviImage;
+    private ImageView markerVisistedImage;
+    private ImageView markerNextImage;
+    private ImageView markerRouteImage;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,8 +49,20 @@ public class Help_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.help_fragment, container, false);
-        back_btn = view.findViewById(R.id.help_back_btn);
-        loading = view.findViewById(R.id.loading_explain);
+        this.back_btn = view.findViewById(R.id.help_back_btn);
+        this.loading = view.findViewById(R.id.loading_explain);
+
+        // labels for the map icon explanations
+        this.userNaviText = view.findViewById(R.id.lblUserNavigator);
+        this.markerVisitedText = view.findViewById(R.id.lblFlagMarkerVisited);
+        this.markerNextText = view.findViewById(R.id.lblFlagMarkerNext);
+        this.markerRouteText = view.findViewById(R.id.lblFlagMarkerRoute);
+
+        // images for the map icons
+        this.userNaviImage = view.findViewById(R.id.imgViewUserNavigator);
+        this.markerVisistedImage = view.findViewById(R.id.imgViewFlagMarkerVisited);
+        this.markerNextImage = view.findViewById(R.id.imgViewFlagMarkerNext);
+        this.markerRouteImage = view.findViewById(R.id.imgViewFlagMarkerRoute);
         animateText();
 
         back_btn.setOnClickListener(new View.OnClickListener() {
