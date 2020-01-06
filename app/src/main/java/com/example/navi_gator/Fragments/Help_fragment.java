@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.navi_gator.Interface.OnFragmentInteractionListener;
@@ -28,6 +29,8 @@ public class Help_fragment extends Fragment {
     private ImageView markerVisistedImage;
     private ImageView markerNextImage;
     private ImageView markerRouteImage;
+
+    private ScrollView scrollView;
 
 
     private OnFragmentInteractionListener mListener;
@@ -57,6 +60,8 @@ public class Help_fragment extends Fragment {
         this.markerVisitedText = view.findViewById(R.id.lblFlagMarkerVisited);
         this.markerNextText = view.findViewById(R.id.lblFlagMarkerNext);
         this.markerRouteText = view.findViewById(R.id.lblFlagMarkerRoute);
+
+        this.scrollView = view.findViewById(R.id.scrllViewFlagMarkerRoute);
 
         // images for the map icons
         this.userNaviImage = view.findViewById(R.id.imgViewUserNavigator);

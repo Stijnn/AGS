@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="@string/loading_explain"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/loading_explain" />
@@ -102,9 +103,12 @@
     <TextView
         android:id="@+id/lblUserNavigator"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/user_navi_icon_explain"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/lblFlagMarkerVisited"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/imgViewUserNavigator" />
@@ -124,9 +128,12 @@
     <TextView
         android:id="@+id/lblFlagMarkerVisited"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/marker_visited_explaination"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/lblFlagMarkerNext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/lblUserNavigator"
         app:layout_constraintTop_toTopOf="@+id/imgViewFlagMarkerVisited" />
@@ -146,9 +153,12 @@
     <TextView
         android:id="@+id/lblFlagMarkerNext"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/marker_next_explanation"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/scrllViewFlagMarkerRoute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/lblFlagMarkerVisited"
         app:layout_constraintTop_toTopOf="@+id/imgViewFlagMarkerNext" />
@@ -165,13 +175,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgViewFlagMarkerNext" />
 
-    <TextView
-        android:id="@+id/lblFlagMarkerRoute"
+    <ScrollView
+        android:id="@+id/scrllViewFlagMarkerRoute"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="@string/marker_route_explanation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/lblFlagMarkerNext"
-        app:layout_constraintTop_toTopOf="@+id/imgViewFlagMarkerRoute" />
+        app:layout_constraintTop_toTopOf="@+id/imgViewFlagMarkerRoute">
+
+        <TextView
+            android:id="@+id/lblFlagMarkerRoute"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/marker_route_explanation" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
