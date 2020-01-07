@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,10 @@ import com.example.navi_gator.Fragments.Help_fragment;
 import com.example.navi_gator.Fragments.Loading_fragment;
 import com.example.navi_gator.Fragments.Waypoint_fragment;
 import com.example.navi_gator.Interface.OnFragmentInteractionListener;
+import com.example.navi_gator.Logic.DatabaseManager;
 import com.example.navi_gator.Logic.RouteManager;
+import com.example.navi_gator.Logic.RouteReader;
+import com.example.navi_gator.Models.API.Route;
 import com.example.navi_gator.Models.API.Waypoint;
 import com.example.navi_gator.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +30,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnFragmentInteractionListener {
 
@@ -43,11 +50,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FrameLayout dummyLayout;
     private FrameLayout wayPointLayout;
     private RouteManager controller;
+    private DatabaseManager databaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        databaseManager = new DatabaseManager(this.getBaseContext());
+        SharedPreferences preferences = this.getSharedPreferences("COOKIES", MODE_PRIVATE);
+
+        File database = getApplicationContext().getDatabasePath(DatabaseManager.DB_NAME);
+
+        Route route = this.databaseManager.getRoute("DEBUG");
+        System.out.println(":D");
+
+        if (!(preferences.contains("INITIALIZED")) | route == null) { // !preferences.contains("INITIALIZED")
+            RouteReader reader = new RouteReader(getResources().openRawResource(R.raw.historischekm));
+            Route routeObject = reader.getRoute();
+            databaseManager.addRoute(routeObject);
+            ArrayList<Waypoint> waypoints = new ArrayList<>(routeObject.getRouteWaypoints());
+            for (int i = 0; i < waypoints.size(); i++) {
+                databaseManager.addWaypoint(waypoints.get(i));
+                databaseManager.addRouteWaypoint(routeObject, waypoints.get(i), false);
+            }
+            preferences.edit().putBoolean("INITIALIZED", true).apply();
+        } else {
+
+        }
 
         help_btn = findViewById(R.id.help_btn);
         burger_btn = findViewById(R.id.burgermenu_btn);
@@ -138,7 +168,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        this.controller = new RouteManager(this, this, mMap, getResources().openRawResource(R.raw.historischekm));
+        this.controller = new RouteManager(this, this, mMap, getResources().openRawResource(R.raw.historischekm), this.databaseManager);
         controller.prepareLocationService();
         // Add a marker in Breda and move the camera
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -165,6 +195,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         if (point.isVisited()) {
                             marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker));
+                            databaseManager.updateRouteWaypoint(controller.getRoute(), point);
                         }
                         controller.updateNextMarker();
 

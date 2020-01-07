@@ -60,6 +60,8 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
     private RouteReader routeReader;
     private InputStream routeStream;
 
+    private DatabaseManager dbManager;
+
     // DirectionsAPI
     private List<List<Waypoint>> divideWaypoints;
     private DirectionsAPI directionsAPI;
@@ -71,12 +73,13 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
     public int nextWaypoint = 1;
     private HashMap<Waypoint, Marker> markers;
 
-    public RouteManager(Context context, Activity mapActivity, GoogleMap mMap, InputStream route) {
+    public RouteManager(Context context, Activity mapActivity, GoogleMap mMap, InputStream route, DatabaseManager dbManager) {
         this.context = context;
         this.mapActivity = mapActivity;
         this.mMap = mMap;
         this.routeStream = route;
         this.markers = new HashMap<>();
+        this.dbManager = dbManager;
 
         try {
             routeReader = new RouteReader(this.routeStream);
@@ -84,7 +87,7 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
             e.printStackTrace();
         }
 
-        this.route = new DatabaseManager(context).getRoute("DEBUG");
+        this.route = dbManager.getRoute("DEBUG");
 
         gpsManager = new GPSManager(context, this);
 
@@ -101,6 +104,10 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
 
     public HashMap<Waypoint, Marker> getMarkers() {
         return markers;
+    }
+
+    public Route getRoute() {
+        return this.route;
     }
 
     public String generateRouteStartURL() {
@@ -182,6 +189,13 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
                     routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
                             .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.next_marker))
+                            .visible(!routeWaypoint.isVisited());
+                    marker = this.mMap.addMarker(routeWaypointMarker);
+
+                } else if (routeWaypoint.isVisited()) {
+                    routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
+                            .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker))
                             .visible(!routeWaypoint.isVisited());
                     marker = this.mMap.addMarker(routeWaypointMarker);
 

@@ -11,14 +11,14 @@
       "number": 2,
       "latitude": "51°35.2783’",
       "longitude": "4°46.5817’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 1",
       "comment": "Naar begin Grote Markt"
     },
     {
       "number": 3,
       "latitude": "51°35.2600’",
       "longitude": "4°46.5933’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 2",
       "comment": "Zuidpunt Grote Markt Start"
     },
     {
@@ -32,7 +32,7 @@
       "number": 5,
       "latitude": "51°35.2967’",
       "longitude": "4°46.7100’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 3",
       "comment": "Kruising St.Janstraat/Molenstraat"
     },
     {
@@ -46,7 +46,7 @@
       "number": 7,
       "latitude": "51°35.2417’",
       "longitude": "4°46.8133’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 4",
       "comment": "Kruising Molenstraat/Kloosterplein"
     },
     {
@@ -67,7 +67,7 @@
       "number": 10,
       "latitude": "51°35.2650’",
       "longitude": "4°46.8750’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 5",
       "comment": "Kruising Kloosterplein/Vlaszak"
     },
     {
@@ -81,7 +81,7 @@
       "number": 12,
       "latitude": "51°35.3700’",
       "longitude": "4°46.8267’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 6",
       "comment": "Kruising Vlaszak/Boschstraat"
     },
     {
@@ -102,7 +102,7 @@
       "number": 15,
       "latitude": "51°35.3650’",
       "longitude": "4°46.7917’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 7",
       "comment": "Ingang Veemarktstraat"
     },
     {
@@ -116,7 +116,7 @@
       "number": 17,
       "latitude": "51°35.3133’",
       "longitude": "4°46.7000’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 8",
       "comment": "Kruising Veemarktstraat/St.Annastraat"
     },
     {
@@ -130,7 +130,7 @@
       "number": 19,
       "latitude": "51°35.3800’",
       "longitude": "4°46.6683’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 9",
       "comment": "Kruising St.Annastraat/Catharinastraat"
     },
     {
@@ -144,7 +144,7 @@
       "number": 21,
       "latitude": "51°35.3700’",
       "longitude": "4°46.5750’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 10",
       "comment": ""
     },
     {
@@ -158,7 +158,7 @@
       "number": 23,
       "latitude": "51°35.5500’",
       "longitude": "4°46.7633’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 11",
       "comment": "Pad ten westen van monument"
     },
     {
@@ -172,7 +172,7 @@
       "number": 25,
       "latitude": "51°35.5600’",
       "longitude": "4°46.6750’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 12",
       "comment": ""
     },    {
       "number": 26,
@@ -199,7 +199,7 @@
       "number": 29,
       "latitude": "51°35.4200’",
       "longitude": "4°46.5600’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 13",
       "comment": "Kruising Kasteelplein/Cingelstraat"
     },
     {
@@ -248,7 +248,7 @@
       "number": 36,
       "latitude": "51°35.3267’",
       "longitude": "4°46.4933’",
-      "name": "Route begeleiding",
+      "name": "Route begeleiding 14",
       "comment": "Kruising Torenstraat/Kerkplein"
     },
     {

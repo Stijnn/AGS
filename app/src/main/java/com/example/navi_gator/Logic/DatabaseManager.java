@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-    private static final String DB_NAME = "NAVI_GATOR_DB";
+    public static final String DB_NAME = "NAVI_GATOR_DB";
     private static final int DB_VERSION = 1;
 
     public DatabaseManager(@Nullable Context context) {
@@ -132,9 +132,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
      */
     public void updateRouteWaypoint(Route route, Waypoint waypoint) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL(String.format("UPDATE %s" +
-                "SET visited = %d" +
-                "WHERE route_id == '%s' AND waypoint_id == '%s';", "tbl_RouteWaypoints", waypoint.isVisited() ? 1 : 0, route.getId(), waypoint.getId()));
+
+        String query = String.format("UPDATE %s" +
+                " SET visited = %d" +
+                " WHERE route_id == '%s' AND waypoint_id == '%s';", "tbl_RouteWaypoints", waypoint.isVisited() ? 1 : 0, route.getId(), waypoint.getId());
+        db.execSQL(query);
     }
 
     /**
