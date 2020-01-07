@@ -16,6 +16,7 @@ import com.example.navi_gator.Models.API.Waypoint;
 import com.example.navi_gator.R;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.nio.file.Watchable;
 import java.util.ArrayList;
 
 public class DatabaseManager extends SQLiteOpenHelper {
@@ -92,24 +93,30 @@ public class DatabaseManager extends SQLiteOpenHelper {
             }
             while (cursor.moveToNext());
         }
-        for (int i = 0; i < waypoint_number.size(); i++) {
-            Cursor waypointCursor = db.rawQuery(String.format("SELECT * FROM %s WHERE number == '%s';", Waypoint.TABLE_NAME, waypoint_number.get(i)), new String[]{});
 
-            if (waypointCursor.moveToFirst() && cursor.moveToFirst()) {
-                int rawVisited = cursor.getInt(2);
-                boolean visited = rawVisited == 0;
+        try {
+            for (int i = 0; i < waypoint_number.size(); i++) {
+                Cursor waypointCursor = db.rawQuery(String.format("SELECT * FROM %s WHERE number == '%s';", Waypoint.TABLE_NAME, waypoint_number.get(i)), new String[]{});
+                cursor = db.rawQuery(String.format("SELECT * FROM %s WHERE id_number == '%s';", "tbl_RouteWaypoints", waypoint_number.get(i)), new String[]{});
 
-                waypoints.add(new Waypoint(
-                        visited, //Visited
-                        cursor.getString(1),         //Id
-                        waypointCursor.getInt(1), //Number
-                        new LatLng(waypointCursor.getDouble(5), waypointCursor.getDouble(4)),
-                        waypointCursor.getString(3), //name
-                        waypointCursor.getString(2)) //description
-                );
+                if (waypointCursor.moveToFirst() && cursor.moveToFirst()) {
+                    boolean visited = cursor.getInt(3) > 0;
+
+                    waypoints.add(new Waypoint(
+                            visited, //Visited
+                            cursor.getString(1),         //Id
+                            waypointCursor.getInt(1), //Number
+                            new LatLng(waypointCursor.getDouble(5), waypointCursor.getDouble(4)),
+                            waypointCursor.getString(3), //name
+                            waypointCursor.getString(2)) //description
+                    );
+                }
+                waypointCursor.close();
             }
-            waypointCursor.close();
+        } catch (IndexOutOfBoundsException ex) {
+            // Error caught
         }
+
         cursor.close();
         return waypoints;
     }
@@ -133,10 +140,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void updateRouteWaypoint(Route route, Waypoint waypoint) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = String.format("UPDATE %s" +
-                " SET visited = %d" +
-                " WHERE route_id == '%s' AND waypoint_id == '%s';", "tbl_RouteWaypoints", waypoint.isVisited() ? 1 : 0, route.getId(), waypoint.getId());
-        db.execSQL(query);
+        Waypoint wp = waypoint;
+
+        ContentValues cv = new ContentValues();
+        cv.put("visited", wp.isVisited());
+
+        String whereClause = "route_id = '" + route.getId() + "' AND waypoint_id = '" + wp.getName() + "';";
+
+        db.update("tbl_RouteWaypoints", cv, whereClause, null);
     }
 
     /**

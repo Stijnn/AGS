@@ -179,24 +179,45 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
         return waypointListDivided;
     }
 
+    private void CheckProgression() {
+        int nxtWaypointCheck = checkNextWaypointStarter();
+
+        if (nxtWaypointCheck == 0) {
+            this.nextWaypoint = 1;
+        } else if (nxtWaypointCheck > 0) {
+            this.nextWaypoint = nxtWaypointCheck;
+        }
+    }
+
+    private int checkNextWaypointStarter() {
+        int visitedTracker = 0;
+        for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
+            if (routeWaypoint.isVisited()) {
+                visitedTracker = routeWaypoint.getNumber() + 1;
+            }
+        }
+        return visitedTracker;
+    }
+
     private void initializeRouteWaypoints() {
         try {
+            CheckProgression();
             for (Waypoint routeWaypoint : this.route.getRouteWaypoints()) {
                 Marker marker;
                 MarkerOptions routeWaypointMarker;
 
-                if (routeWaypoint.getNumber() == nextWaypoint) {
+                if (routeWaypoint.getNumber() == nextWaypoint | nextWaypoint == 0) {
                     routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
                             .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.next_marker))
-                            .visible(!routeWaypoint.isVisited());
+                            .visible(true);
                     marker = this.mMap.addMarker(routeWaypointMarker);
 
-                } else if (routeWaypoint.isVisited()) {
+                } else if (routeWaypoint.isVisited() | (routeWaypoint.isVisited() && routeWaypoint.getNumber() == 1)) {
                     routeWaypointMarker = new MarkerOptions().position(routeWaypoint.getLatlong())
                             .title(routeWaypoint.getNumber() + ". " + routeWaypoint.getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker))
-                            .visible(!routeWaypoint.isVisited());
+                            .visible(routeWaypoint.isVisited());
                     marker = this.mMap.addMarker(routeWaypointMarker);
 
                 } else {

@@ -60,10 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         databaseManager = new DatabaseManager(this.getBaseContext());
         SharedPreferences preferences = this.getSharedPreferences("COOKIES", MODE_PRIVATE);
 
-        File database = getApplicationContext().getDatabasePath(DatabaseManager.DB_NAME);
-
         Route route = this.databaseManager.getRoute("DEBUG");
-        System.out.println(":D");
 
         if (!(preferences.contains("INITIALIZED")) | route == null) { // !preferences.contains("INITIALIZED")
             RouteReader reader = new RouteReader(getResources().openRawResource(R.raw.historischekm));
@@ -75,8 +72,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 databaseManager.addRouteWaypoint(routeObject, waypoints.get(i), false);
             }
             preferences.edit().putBoolean("INITIALIZED", true).apply();
-        } else {
-
         }
 
         help_btn = findViewById(R.id.help_btn);
@@ -196,6 +191,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (point.isVisited()) {
                             marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.checked_marker));
                             databaseManager.updateRouteWaypoint(controller.getRoute(), point);
+
+                            ArrayList<Waypoint> test = databaseManager.getWaypoints(databaseManager.getRoute("DEBUG"));
+                            System.out.println();
                         }
                         controller.updateNextMarker();
 
