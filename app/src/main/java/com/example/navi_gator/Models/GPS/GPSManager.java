@@ -36,6 +36,10 @@ public class GPSManager extends Service {
         return locationListener;
     }
 
+    public LocationManager getLocationManager() {
+        return locationManager;
+    }
+
     public void isLocationEnabled() {
         // check to see whether the user gave permission to use location services, if not prompts the user for permission
 
@@ -96,7 +100,6 @@ public class GPSManager extends Service {
             public void onStatusChanged(String provider, int status, Bundle extras) {
                 //TODO make notification
 
-                Toast.makeText(context, "Location Service altered", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -110,7 +113,7 @@ public class GPSManager extends Service {
             public void onProviderDisabled(String provider) {
                 //TODO make notification
 
-                Toast.makeText(context, "Location Service disabled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Location Service disabled, enable", Toast.LENGTH_SHORT).show();
             }
         };
         this.locationManager = locationManager;

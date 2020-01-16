@@ -69,6 +69,8 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
 
     private LatLng currentGPSPos;
 
+    private Location lastKnownLocation;
+
     // Route progression
     public int nextWaypoint = 1;
     private HashMap<Waypoint, Marker> markers;
@@ -255,20 +257,27 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
 
         // initializes the location services and checks if permission is given.
         locationManager = (LocationManager) mapActivity.getSystemService(Context.LOCATION_SERVICE);
-        if (ContextCompat.checkSelfPermission(context, PERMISSION_STRING) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
-            //    Activity#requestPermissions
+            //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
+            // for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(mapActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                UPDATE_TIME_INTERVAL,
-                UPDATE_MIN_DISTANCE, locationListener);
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+
+        if (lastKnownLocation != null ) {
+            Toast.makeText(context, "TEST", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Oh shit", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void setupDirectionsAPI () {
@@ -278,11 +287,10 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
     @Override
     public void updateUserNavigatorLocation(Location location) {
         try {
-
             userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
             this.currentGPSPos = new LatLng(location.getLatitude(), location.getLongitude());
             directionsAPI.drawRoutePolyLine(location);
-//            initializeRouteWaypoints();
+            initializeRouteWaypoints();
 
         } catch (NullPointerException ex) {
             // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
