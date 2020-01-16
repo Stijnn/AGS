@@ -272,12 +272,6 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-
-        if (lastKnownLocation != null ) {
-            Toast.makeText(context, "TEST", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Oh shit", Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void setupDirectionsAPI () {
@@ -290,7 +284,7 @@ public class RouteManager implements IUserNavigatorUpdater, IRouteLeavingCallbac
             userNavigator.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
             this.currentGPSPos = new LatLng(location.getLatitude(), location.getLongitude());
             directionsAPI.drawRoutePolyLine(location);
-            initializeRouteWaypoints();
+            //initializeRouteWaypoints();
 
         } catch (NullPointerException ex) {
             // this gets called after the user clicks the cancel button or the marker isn't initialized yet, to make sure the system doesn't crash
